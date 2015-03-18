@@ -11,7 +11,7 @@ import java.util.Random;
  *
  * @author Rik
  */
-public class PassageDetectorClientStarter {
+public class PassageDetector {
 
     /**
      * @param args the command line arguments

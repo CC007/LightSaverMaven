@@ -13,7 +13,7 @@ import com.github.cc007.lightsaver.message.udp.UDPMessageServer;
  *
  * @author Rik
  */
-public class DetectorMessageServerStarter {
+public class Light {
 
     /**
      * @param args the command line arguments
