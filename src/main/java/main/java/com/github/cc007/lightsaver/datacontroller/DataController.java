@@ -11,7 +11,7 @@ import com.github.cc007.lightsaver.message.tcp.TCPMessageServer;
  *
  * @author Rik
  */
-public class ApplianceStateReceiverStarter {
+public class DataController {
 
     /**
      * @param args the command line arguments

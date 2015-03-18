@@ -21,7 +21,7 @@ public class Light {
     public static void main(String[] args) {
         UDPMessageServer udpServer = new UDPMessageServer(new DetectorUDPMessageProtocol());
         TCPMessageServer tcpServer = new TCPMessageServer(new DetectorTCPMessageProtocol());
-        //udpServer.start();
+        udpServer.start();
         tcpServer.start();
     }
     
