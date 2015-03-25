@@ -19,8 +19,8 @@ public class MotionDetector {
     public static void main(String[] args) {
         Random r = new Random(System.currentTimeMillis());
         int clientId = r.nextInt(1000); //TODO make client id unique
-        MotionDetectorClient ldc = new  MotionDetectorClient(clientId);
-        ldc.start();
+        MotionDetectorClient mdc = new  MotionDetectorClient(clientId);
+        mdc.start();
     }
     
 }

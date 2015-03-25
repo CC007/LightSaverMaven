@@ -19,8 +19,8 @@ public class PassageDetector {
     public static void main(String[] args) {
         Random r = new Random(System.currentTimeMillis());
         int clientId = r.nextInt(1000); //TODO make client id unique
-        PassageDetectorClient ldc = new  PassageDetectorClient(clientId);
-        ldc.start();
+        PassageDetectorClient pdc = new  PassageDetectorClient(clientId);
+        pdc.start();
     }
     
 }

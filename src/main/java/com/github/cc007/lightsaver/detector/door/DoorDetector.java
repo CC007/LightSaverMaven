@@ -19,8 +19,8 @@ public class DoorDetector {
     public static void main(String[] args) {
         Random r = new Random(System.currentTimeMillis());
         int clientId = r.nextInt(1000); //TODO make client id unique
-        DoorDetectorClient ldc = new DoorDetectorClient(clientId);
-        ldc.start();
+        DoorDetectorClient ddc = new DoorDetectorClient(clientId);
+        ddc.start();
     }
     
 }
