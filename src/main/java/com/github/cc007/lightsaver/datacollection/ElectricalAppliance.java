@@ -5,14 +5,15 @@
  */
 package com.github.cc007.lightsaver.datacollection;
 
-public abstract class ElectricalAppliance implements Appliance {
+public abstract class ElectricalAppliance {
 
-    protected static int state;
+    protected int state;
 
-    @Override
     public void setState(int state) {
         this.state = state;
         sendState();
     }
+
+    public abstract void sendState();
 
 }
