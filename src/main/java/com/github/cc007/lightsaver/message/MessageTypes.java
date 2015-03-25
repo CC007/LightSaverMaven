@@ -27,6 +27,7 @@ public interface MessageTypes {
     // - detector messages
     public static final int DOOR_DETECTOR_MSG = 2000;
 
+    // rabbitmq messages
     // - appliance state change messages
-    public static final int APPLIANCE_STATE_CHANGE_MSG = 2100;
+    public static final int APPLIANCE_STATE_CHANGE_MSG = 3100;
 }
