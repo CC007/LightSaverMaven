@@ -10,7 +10,7 @@ import com.rabbitmq.client.ShutdownSignalException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import main.java.com.github.cc007.lightsaver.message.rabbitmq.RMQMessageProtocol;
+import com.github.cc007.lightsaver.message.rabbitmq.RMQMessageProtocol;
 
 public class ApplianceStateReceiver extends Thread {
 
