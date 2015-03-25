@@ -6,7 +6,7 @@
 package com.github.cc007.lightsaver.message;
 
 /**
- * at the moment this class only contains constants. This may change to a map in
+ * at the moment this class only contains constants. This may change in
  * a future implementation
  *
  * @author Rik
