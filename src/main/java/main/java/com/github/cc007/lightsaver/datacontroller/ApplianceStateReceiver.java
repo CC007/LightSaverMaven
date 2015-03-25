@@ -1,5 +1,6 @@
 package com.github.cc007.lightsaver.datacontroller;
 
+import com.github.cc007.lightsaver.message.Message;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
@@ -9,11 +10,16 @@ import com.rabbitmq.client.ShutdownSignalException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import main.java.com.github.cc007.lightsaver.message.rabbitmq.RMQMessageProtocol;
 
 public class ApplianceStateReceiver extends Thread {
 
 	private final static String QUEUE_NAME = "hello";
-
+	
+	private RMQMessageProtocol rmqmp;
+	
+	private Message m;
+	
 	@Override
 	public void run() {
 		try {
