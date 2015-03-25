@@ -5,12 +5,14 @@
  */
 package com.github.cc007.lightsaver.datacollection;
 
-/**
- *
- * @author Rik
- */
-public interface ElectricalAppliance {
+public abstract class ElectricalAppliance implements Appliance {
 
-	public void sendOnOffMessage(boolean on);
+    protected static int state;
+
+    @Override
+    public void setState(int state) {
+        this.state = state;
+        sendState();
+    }
 
 }
