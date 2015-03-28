@@ -17,30 +17,37 @@ import java.util.logging.Logger;
  *
  * @author Rik
  */
-public abstract class RMQMessageSender extends Thread{
+public abstract class RMQMessageSender extends Thread {
 
     private static final String SERVER_ADDRESS = "localhost";
 
     protected Message m;
     protected boolean send;
+    protected boolean exit;
 
     private byte[] mBuffer;
     private Connection con;
     private Channel ch;
-    public RMQMessageSender(String name) {
-        super(name);
+
+    public RMQMessageSender() {
         try {
             ConnectionFactory factory = new ConnectionFactory();
             factory.setHost(SERVER_ADDRESS);
-            con = factory.newConnection();
-            ch = con.createChannel();
-            ch.queueDeclare(RMQMessageReceiver.QUEUE_NAME, false, false, false, null);
+            this.con = factory.newConnection();
+            this.ch = con.createChannel();
+            this.ch.queueDeclare(RMQMessageReceiver.QUEUE_NAME, false, false, false, null);
+            this.send = true;
+            this.exit = false;
         } catch (IOException ex) {
             Logger.getLogger(RMQMessageSender.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    
+    public RMQMessageSender(String name) {
+        this();
+        setName(name);
+    }
+
     protected void doBefore() {
     }
 
@@ -50,10 +57,10 @@ public abstract class RMQMessageSender extends Thread{
 
     protected void doAfter() {
     }
-    
-     @Override
+
+    @Override
     public void run() {
-        while (true) {
+        while (!exit) {
             try {
                 // things to be done before creating the message
                 doBefore();
@@ -72,7 +79,7 @@ public abstract class RMQMessageSender extends Thread{
                 doAfter();
             } catch (IOException ex) {
                 Logger.getLogger(RMQMessageSender.class.getName()).log(Level.SEVERE, null, ex);
-            }finally{
+            } finally {
                 try {
                     ch.close();
                     con.close();

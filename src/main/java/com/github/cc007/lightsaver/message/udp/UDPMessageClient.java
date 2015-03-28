@@ -25,12 +25,14 @@ public abstract class UDPMessageClient extends Thread {
 
     protected Message m;
     protected boolean send;
+    protected boolean exit;
 
     private byte[] mBuffer;
     private DatagramSocket s = null;
 
     public UDPMessageClient() {
         this.send = true;
+        this.exit = false;
     }
 
     public UDPMessageClient(String name) {
@@ -52,7 +54,7 @@ public abstract class UDPMessageClient extends Thread {
 
     @Override
     public void run() {
-        while (true) {
+        while (!exit) {
             try {
                 // things to be done before creating the message
                 doBefore();

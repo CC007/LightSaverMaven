@@ -23,6 +23,7 @@ public abstract class TCPMessageClient extends Thread {
 
     protected Message m;
     protected boolean send;
+    protected boolean exit;
 
     private DataOutputStream out;
     private DataInputStream in;
@@ -31,6 +32,7 @@ public abstract class TCPMessageClient extends Thread {
 
     public TCPMessageClient() {
         this.send = true;
+        this.exit = false;
     }
 
     public TCPMessageClient(String name) {
@@ -50,7 +52,7 @@ public abstract class TCPMessageClient extends Thread {
 
     @Override
     public void run() {
-        while (true) {
+        while (!exit) {
             try {
                 // things to be done before creating the message
                 doBefore();

@@ -10,6 +10,7 @@ import com.github.cc007.lightsaver.datacontroller.ApplianceStateSender;
 import com.github.cc007.lightsaver.message.tcp.TCPMessageProtocol;
 import com.github.cc007.lightsaver.message.tcp.TCPMessageServer;
 import com.github.cc007.lightsaver.message.udp.UDPMessageServer;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,9 +22,12 @@ public class Light extends ElectricalAppliance {
 
     public static final int LIGHT_OFF = 0;
     public static final int LIGHT_ON = 1;
+    public static final int LIGHT_LVL_THRESHOLD = 50;
 
     private UDPMessageServer udpServer;
     private TCPMessageServer tcpServer;
+    private int lightlevel;
+    private int counter;
 
     public Light() {
         state = LIGHT_OFF;
@@ -37,7 +41,19 @@ public class Light extends ElectricalAppliance {
      * @param args the command line arguments
      */
     private void checkDesiredState() {
-        // do something
+        if (counter > 0 && (lightlevel < LIGHT_LVL_THRESHOLD || state == LIGHT_ON)) {
+            setState(LIGHT_ON);
+        } else {
+            setState(LIGHT_OFF);
+        }
+    }
+
+    public void setLightlevel(int lightlevel) {
+        this.lightlevel = lightlevel;
+    }
+
+    public void setCounter(int counter) {
+        this.counter = counter;
     }
 
     public static void main(String[] args) {
@@ -54,7 +70,9 @@ public class Light extends ElectricalAppliance {
 
     @Override
     public void sendState() {
-        ApplianceStateSender s = new ApplianceStateSender();
+        Random r = new Random(System.currentTimeMillis());
+        int clientId = r.nextInt(1000); //TODO make client id unique
+        ApplianceStateSender s = new ApplianceStateSender(clientId);
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

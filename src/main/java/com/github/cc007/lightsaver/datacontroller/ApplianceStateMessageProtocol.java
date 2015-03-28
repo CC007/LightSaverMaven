@@ -16,7 +16,7 @@ import java.io.DataOutputStream;
  * @author Rik
  */
 public class ApplianceStateMessageProtocol implements TCPMessageProtocol {
-
+    
     @Override
     public void processInput(int type, DataOutputStream out, DataInputStream in, Message m) {
         switch (type) {

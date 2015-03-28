@@ -9,9 +9,15 @@ public abstract class ElectricalAppliance {
 
     protected int state;
 
+    public int getState() {
+        return state;
+    }
+
     public void setState(int state) {
-        this.state = state;
-        sendState();
+        if (this.state != state) {
+            this.state = state;
+            sendState();
+        }
     }
 
     public abstract void sendState();
