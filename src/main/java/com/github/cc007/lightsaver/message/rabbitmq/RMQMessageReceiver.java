@@ -1,4 +1,4 @@
-package com.github.cc007.lightsaver.datacontroller;
+package com.github.cc007.lightsaver.message.rabbitmq;
 
 import com.github.cc007.lightsaver.message.Message;
 import com.rabbitmq.client.Channel;
@@ -12,9 +12,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import com.github.cc007.lightsaver.message.rabbitmq.RMQMessageProtocol;
 
-public class ApplianceStateReceiver extends Thread {
+public class RMQMessageReceiver extends Thread {
 
-	private final static String QUEUE_NAME = "hello";
+	public static final String QUEUE_NAME = "datacontroller";
 	
 	private RMQMessageProtocol rmqmp;
 	
@@ -36,17 +36,16 @@ public class ApplianceStateReceiver extends Thread {
 
 			while (true) {
 				QueueingConsumer.Delivery delivery = consumer.nextDelivery();
-				String message = new String(delivery.getBody());
-				System.out.println(" [x] Received '" + message + "'");
+				rmqmp.processInput(delivery.getBody(), m);
 			}
-		} catch (IOException ex) {
-			Logger.getLogger(ApplianceStateReceiver.class.getName()).log(Level.SEVERE, null, ex);
-		} catch (InterruptedException ex) {
-			Logger.getLogger(ApplianceStateReceiver.class.getName()).log(Level.SEVERE, null, ex);
-		} catch (ShutdownSignalException ex) {
-			Logger.getLogger(ApplianceStateReceiver.class.getName()).log(Level.SEVERE, null, ex);
-		} catch (ConsumerCancelledException ex) {
-			Logger.getLogger(ApplianceStateReceiver.class.getName()).log(Level.SEVERE, null, ex);
-		}
+		} catch (InterruptedException ex) { 
+            Logger.getLogger(RMQMessageReceiver.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ShutdownSignalException ex) {
+            Logger.getLogger(RMQMessageReceiver.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ConsumerCancelledException ex) {
+            Logger.getLogger(RMQMessageReceiver.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(RMQMessageReceiver.class.getName()).log(Level.SEVERE, null, ex);
+        } 
 	}
 }

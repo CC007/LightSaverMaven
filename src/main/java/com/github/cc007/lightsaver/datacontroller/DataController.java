@@ -5,6 +5,7 @@
  */
 package com.github.cc007.lightsaver.datacontroller;
 
+import com.github.cc007.lightsaver.message.rabbitmq.RMQMessageReceiver;
 import com.github.cc007.lightsaver.message.tcp.TCPMessageServer;
 
 /**
@@ -17,7 +18,7 @@ public class DataController {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        ApplianceStateReceiver asr = new ApplianceStateReceiver();
+        RMQMessageReceiver asr = new RMQMessageReceiver();
 		asr.start();
     }
     

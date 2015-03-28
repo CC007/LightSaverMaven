@@ -21,7 +21,7 @@ public class ApplianceStateTCPMessageProtocol implements TCPMessageProtocol {
     public void processInput(int type, DataOutputStream out, DataInputStream in, Message m) {
         switch (type) {
             case MessageTypes.APPLIANCE_STATE_CHANGE_MSG:
-                System.out.println("Something needs to be done with the light, but what is not yet specified :P");
+                System.out.println("Something needs to be done with the logging of state");
                 break;
             default:
                 System.err.println("Unknown message type found: " + type);
