@@ -5,10 +5,13 @@
  */
 package com.github.cc007.lightsaver.message.rabbitmq;
 
+import com.github.cc007.lightsaver.message.Message;
+
 /**
  *
  * @author Rik
  */
 public interface RMQMessageProtocol {
 	
+    public void processInput(byte[] buffer, Message m);
 }
