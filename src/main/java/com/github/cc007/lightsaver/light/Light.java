@@ -6,7 +6,6 @@
 package com.github.cc007.lightsaver.light;
 
 import com.github.cc007.lightsaver.datacollection.ElectricalAppliance;
-import com.github.cc007.lightsaver.datacontroller.ApplianceStateSender;
 import com.github.cc007.lightsaver.message.tcp.TCPMessageProtocol;
 import com.github.cc007.lightsaver.message.tcp.TCPMessageServer;
 import com.github.cc007.lightsaver.message.udp.UDPMessageServer;
@@ -23,16 +22,31 @@ public class Light extends ElectricalAppliance {
     public static final int LIGHT_OFF = 0;
     public static final int LIGHT_ON = 1;
     public static final int LIGHT_LVL_THRESHOLD = 50;
+    public static final int LIGHT_COUNTER_RESET_VALUE = 50;
+    public static final int MOTION_DETECTOR_COUNTER_RESET_VALUE = 5;
 
     private UDPMessageServer udpServer;
     private TCPMessageServer tcpServer;
+    private ApplianceStateSender sender;
+    
     private int lightlevel;
     private int counter;
+    private int motionDetectorCounter;
 
     public Light() {
         state = LIGHT_OFF;
-        udpServer = new UDPMessageServer(new DetectorUDPMessageProtocol());
-        tcpServer = new TCPMessageServer(new DetectorTCPMessageProtocol());
+        counter = 0;
+        lightlevel = 0;
+        motionDetectorCounter = 0;
+    }
+    
+    public void startThreads(){
+        udpServer = new UDPMessageServer(new DetectorUDPMessageProtocol(this));
+        tcpServer = new TCPMessageServer(new DetectorTCPMessageProtocol(this));
+        Random r = new Random(System.currentTimeMillis());
+        int clientId = r.nextInt(1000); //TODO make client id unique
+        sender = new ApplianceStateSender(clientId);
+        sender.start();
         udpServer.start();
         tcpServer.start();
     }
@@ -41,8 +55,10 @@ public class Light extends ElectricalAppliance {
      * @param args the command line arguments
      */
     private void checkDesiredState() {
-        if (counter > 0 && (lightlevel < LIGHT_LVL_THRESHOLD || state == LIGHT_ON)) {
+        if (counter != 0 && (lightlevel < LIGHT_LVL_THRESHOLD || state == LIGHT_ON)) {
             setState(LIGHT_ON);
+            counter--;
+            motionDetectorCounter--;            
         } else {
             setState(LIGHT_OFF);
         }
@@ -52,16 +68,21 @@ public class Light extends ElectricalAppliance {
         this.lightlevel = lightlevel;
     }
 
-    public void setCounter(int counter) {
+    public synchronized void setCounter(int counter) {
         this.counter = counter;
+    }
+
+    public synchronized void setMotionDetectorCounter(int motionDetectorCounter) {
+        this.motionDetectorCounter = motionDetectorCounter;
     }
 
     public static void main(String[] args) {
         Light l = new Light();
+        l.startThreads();
         while (true) {
             l.checkDesiredState();
             try {
-                Thread.sleep(5000);
+                Thread.sleep(1000);
             } catch (InterruptedException ex) {
                 Logger.getLogger(Light.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -70,10 +91,7 @@ public class Light extends ElectricalAppliance {
 
     @Override
     public void sendState() {
-        Random r = new Random(System.currentTimeMillis());
-        int clientId = r.nextInt(1000); //TODO make client id unique
-        ApplianceStateSender s = new ApplianceStateSender(clientId);
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        sender.setState(state);
     }
 
 }

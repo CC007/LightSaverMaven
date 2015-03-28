@@ -21,13 +21,22 @@ import java.util.logging.Logger;
  */
 public class DetectorTCPMessageProtocol implements TCPMessageProtocol {
 
+    Light l;
+
+    public DetectorTCPMessageProtocol(Light l) {
+        this.l = l;
+    }
+
     @Override
     public void processInput(int type, DataOutputStream out, DataInputStream in, Message m) {
         try {
             switch (type) {
                 case MessageTypes.DOOR_DETECTOR_MSG:
                     m = new DoorDetectorMessage(type, in.readInt(), in.readBoolean());
-                    System.out.println("The state of door " + ((DoorDetectorMessage) m).getClientId() + " changed its state to: " + (((DoorDetectorMessage) m).isOpen() ? "open" : "closed"));
+                    l.setCounter(l.LIGHT_COUNTER_RESET_VALUE);
+                    if(((DoorDetectorMessage) m).isClosed()){
+                        l.setMotionDetectorCounter(l.MOTION_DETECTOR_COUNTER_RESET_VALUE);
+                    }
                     break;
                 default:
                     System.err.println("Unknown message type found: " + type);

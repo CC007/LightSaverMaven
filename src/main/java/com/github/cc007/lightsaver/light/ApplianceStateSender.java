@@ -3,11 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.github.cc007.lightsaver.datacontroller;
+package com.github.cc007.lightsaver.light;
 
+import com.github.cc007.lightsaver.datacontroller.ApplianceStateMessage;
+import com.github.cc007.lightsaver.detector.motion.MotionDetectorMessage;
 import com.github.cc007.lightsaver.message.Message;
 import com.github.cc007.lightsaver.message.MessageTypes;
 import com.github.cc007.lightsaver.message.rabbitmq.RMQMessageSender;
+import java.nio.ByteBuffer;
 
 /**
  *
@@ -15,7 +18,7 @@ import com.github.cc007.lightsaver.message.rabbitmq.RMQMessageSender;
  */
 public class ApplianceStateSender extends RMQMessageSender {
 
-    private int clientId;
+    private final int clientId;
     private int state;
 
     public ApplianceStateSender(int clientId) {
@@ -31,7 +34,21 @@ public class ApplianceStateSender extends RMQMessageSender {
 
     @Override
     protected byte[] writeToBuffer() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return ByteBuffer
+                .allocate(12)
+                .putInt(0, m.getMsgType())
+                .putInt(4, ((ApplianceStateMessage) m).getClientId())
+                .putInt(8, ((ApplianceStateMessage) m).getState())
+                .array();
     }
 
+    @Override
+    protected void doAfter() {
+        send = false;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+        send = true;
+    }
 }
