@@ -21,6 +21,10 @@ public class RMQMessageReceiver extends Thread {
 
     private RMQMessageProtocol rmqmp;
 
+    public RMQMessageReceiver(RMQMessageProtocol rmqmp) {
+        this.rmqmp = rmqmp;
+    }
+
     @Override
     public void run() {
         try {

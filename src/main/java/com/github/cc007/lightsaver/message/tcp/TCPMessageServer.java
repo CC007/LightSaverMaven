@@ -27,7 +27,7 @@ public class TCPMessageServer extends Thread {
     public void listen() {
         try {
             ServerSocket serverSocket = new ServerSocket(SERVER_PORT);
-            System.out.println("Server is listening...");
+            System.out.println("TCP Server is listening...");
             while (true) {
                 Socket clientSocket = serverSocket.accept();
                 //start a thread that waits for a client message coming in

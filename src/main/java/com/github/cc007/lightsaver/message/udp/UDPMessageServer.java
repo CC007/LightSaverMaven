@@ -9,7 +9,7 @@ import java.net.SocketException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class UDPMessageServer extends Thread{
+public class UDPMessageServer extends Thread {
 
     public static final int SERVER_PORT = 7376;
 
@@ -23,6 +23,7 @@ public class UDPMessageServer extends Thread{
 
     @Override
     public void run() {
+        System.out.println("UDP Server is listening...");
         try {
             // connection part
             s = new DatagramSocket(SERVER_PORT);

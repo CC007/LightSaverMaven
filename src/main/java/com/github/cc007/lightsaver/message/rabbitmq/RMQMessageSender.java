@@ -24,6 +24,7 @@ public abstract class RMQMessageSender extends Thread {
     protected Message m;
     protected boolean send;
     protected boolean exit;
+    protected final Object sendLock = new Object();
 
     private byte[] mBuffer;
     private Connection con;
@@ -60,32 +61,34 @@ public abstract class RMQMessageSender extends Thread {
 
     @Override
     public void run() {
-        while (!exit) {
-            try {
-                // things to be done before creating the message
-                doBefore();
+        try {
+            while (!exit) {
+                synchronized (sendLock) {
+                    // things to be done before creating the message
+                    doBefore();
 
-                if (send) {
-                    // create the message
-                    m = createMessage();
+                    if (send) {
+                        // create the message
+                        m = createMessage();
 
-                    //write to buffer
-                    mBuffer = writeToBuffer();
+                        //write to buffer
+                        mBuffer = writeToBuffer();
 
-                    //connection part
-                    ch.basicPublish("", RMQMessageReceiver.QUEUE_NAME, null, mBuffer);
+                        //connection part
+                        ch.basicPublish("", RMQMessageReceiver.QUEUE_NAME, null, mBuffer);
+                    }
+                    // things to be done after sending the message
+                    doAfter();
                 }
-                // things to be done after sending the message
-                doAfter();
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(RMQMessageSender.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                ch.close();
+                con.close();
             } catch (IOException ex) {
                 Logger.getLogger(RMQMessageSender.class.getName()).log(Level.SEVERE, null, ex);
-            } finally {
-                try {
-                    ch.close();
-                    con.close();
-                } catch (IOException ex) {
-                    Logger.getLogger(RMQMessageSender.class.getName()).log(Level.SEVERE, null, ex);
-                }
             }
         }
     }

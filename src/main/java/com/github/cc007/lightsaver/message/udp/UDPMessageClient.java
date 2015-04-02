@@ -26,6 +26,7 @@ public abstract class UDPMessageClient extends Thread {
     protected Message m;
     protected boolean send;
     protected boolean exit;
+    protected final Object sendLock = new Object();
 
     private byte[] mBuffer;
     private DatagramSocket s = null;
@@ -56,34 +57,36 @@ public abstract class UDPMessageClient extends Thread {
     public void run() {
         while (!exit) {
             try {
-                // things to be done before creating the message
-                doBefore();
-                
-                if (send) {
-                    // create the message
-                    m = createMessage();
+                synchronized (sendLock) {
+                    // things to be done before creating the message
+                    doBefore();
 
-                    //write to buffer
-                    mBuffer = writeToBuffer();
+                    if (send) {
+                        // create the message
+                        m = createMessage();
 
-                    // connection part
-                    s = new DatagramSocket();
-                    InetAddress lightDetectorServer = InetAddress.getByName(SERVER_ADDRESS);
+                        //write to buffer
+                        mBuffer = writeToBuffer();
 
-                    // send message
-                    DatagramPacket ldmPacket = new DatagramPacket(mBuffer, getMessageSize(), lightDetectorServer, UDPMessageServer.SERVER_PORT);
-                    s.send(ldmPacket);
+                        // connection part
+                        s = new DatagramSocket();
+                        InetAddress lightDetectorServer = InetAddress.getByName(SERVER_ADDRESS);
+
+                        // send message
+                        DatagramPacket ldmPacket = new DatagramPacket(mBuffer, getMessageSize(), lightDetectorServer, UDPMessageServer.SERVER_PORT);
+                        s.send(ldmPacket);
+                    }
+
+                    // things to be done after sending the message
+                    doAfter();
                 }
-                
-                // things to be done after sending the message
-                doAfter();
             } catch (SocketException ex) {
                 Logger.getLogger(UDPMessageClient.class.getName()).log(Level.SEVERE, null, ex);
             } catch (UnknownHostException ex) {
                 Logger.getLogger(UDPMessageClient.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
                 Logger.getLogger(UDPMessageClient.class.getName()).log(Level.SEVERE, null, ex);
-            } 
+            }
         }
     }
 

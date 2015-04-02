@@ -32,16 +32,19 @@ public class DetectorUDPMessageProtocol implements UDPMessageProtocol {
                 // it's a Light detector value message
                 m = new LightDetectorMessage(MessageTypes.LIGHT_DETECTOR_MSG, ByteBuffer.wrap(mBuffer).getInt(4), ByteBuffer.wrap(mBuffer).getInt(8));
                 l.setLightlevel(((LightDetectorMessage) m).getValue());
+                System.out.println("Set new light level value: " + ((LightDetectorMessage)m).getValue());
                 break;
             case MessageTypes.PASSAGE_DETECTOR_MSG:
                 // it's a Passage detector value message
                 m = new PassageDetectorMessage(MessageTypes.LIGHT_DETECTOR_MSG, ByteBuffer.wrap(mBuffer).getInt(4));
                 l.setCounter(l.LIGHT_COUNTER_RESET_VALUE);
+                System.out.println("Reset counter to: " + l.LIGHT_COUNTER_RESET_VALUE);
                 break;
             case MessageTypes.MOTION_DETECTOR_MSG:
                 // it's a Passage detector value message
                 m = new MotionDetectorMessage(MessageTypes.MOTION_DETECTOR_MSG, ByteBuffer.wrap(mBuffer).getInt(4));
                 l.setCounter(-1); // infinite counter
+                System.out.println("Disabled counter");
                 break;
             default:
                 System.err.println("Unknown message type found: " + ByteBuffer.wrap(mBuffer).getInt(0));

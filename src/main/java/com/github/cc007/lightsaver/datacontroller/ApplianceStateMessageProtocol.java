@@ -7,24 +7,26 @@ package com.github.cc007.lightsaver.datacontroller;
 
 import com.github.cc007.lightsaver.message.Message;
 import com.github.cc007.lightsaver.message.MessageTypes;
-import com.github.cc007.lightsaver.message.tcp.TCPMessageProtocol;
+import com.github.cc007.lightsaver.message.rabbitmq.RMQMessageProtocol;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.nio.ByteBuffer;
 
 /**
  *
  * @author Rik
  */
-public class ApplianceStateMessageProtocol implements TCPMessageProtocol {
+public class ApplianceStateMessageProtocol implements RMQMessageProtocol {
     
     @Override
-    public void processInput(int type, DataOutputStream out, DataInputStream in, Message m) {
-        switch (type) {
+    public void processInput(byte[] mBuffer, Message m){
+        switch (ByteBuffer.wrap(mBuffer).getInt(0)) {
             case MessageTypes.APPLIANCE_STATE_CHANGE_MSG:
-                System.out.println("Something needs to be done with the logging of state");
+                m = new ApplianceStateMessage(MessageTypes.APPLIANCE_STATE_CHANGE_MSG, ByteBuffer.wrap(mBuffer).getInt(4), ByteBuffer.wrap(mBuffer).getInt(8));
+                System.out.println("Something needs to be done with the logging of state " + ((ApplianceStateMessage)m).getState() + " for client: " + ((ApplianceStateMessage)m).getClientId());
                 break;
             default:
-                System.err.println("Unknown message type found: " + type);
+                System.err.println("Unknown message type found: " + ByteBuffer.wrap(mBuffer).getInt(0));
         }
     }
 

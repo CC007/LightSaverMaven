@@ -25,6 +25,7 @@ public class ApplianceStateSender extends RMQMessageSender {
         super("State change sender: " + clientId);
         this.clientId = clientId;
         this.state = 0;
+        this.send = false;
     }
 
     @Override
@@ -48,7 +49,9 @@ public class ApplianceStateSender extends RMQMessageSender {
     }
 
     public void setState(int state) {
-        this.state = state;
-        send = true;
+        synchronized (sendLock) {
+            this.state = state;
+            send = true;
+        }
     }
 }

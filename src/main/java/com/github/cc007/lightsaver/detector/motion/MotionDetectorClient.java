@@ -19,7 +19,8 @@ public class MotionDetectorClient extends UDPMessageClient {
 
     private static boolean detectMotion() {
         Random r = new Random(System.currentTimeMillis());
-        return r.nextBoolean(); //TODO really detect passage
+        int value = r.nextInt(100);
+        return value > 90; //TODO really detect passage
     }
 
     @Override
@@ -54,7 +55,7 @@ public class MotionDetectorClient extends UDPMessageClient {
             Thread.sleep(1000);
         } catch (InterruptedException ex) {
             Logger.getLogger(MotionDetectorClient.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+        }
     }
 
 }

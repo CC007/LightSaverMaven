@@ -19,7 +19,8 @@ public class PassageDetectorClient extends UDPMessageClient {
 
     private static boolean detectPassage() {
         Random r = new Random(System.currentTimeMillis());
-        return r.nextBoolean(); //TODO really detect passage
+        int value = r.nextInt(1000);
+        return value > 950; //TODO really detect passage
     }
 
     @Override

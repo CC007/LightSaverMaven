@@ -45,7 +45,7 @@ public class LightDetectorClient extends UDPMessageClient {
     @Override
     protected void doAfter() {
         try {
-            //wait 5 seconds
+            //wait 10 seconds
             Thread.sleep(10000);
         } catch (InterruptedException ex) {
             Logger.getLogger(LightDetectorClient.class.getName()).log(Level.SEVERE, null, ex);

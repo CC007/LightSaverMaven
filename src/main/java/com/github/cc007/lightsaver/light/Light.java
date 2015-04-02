@@ -28,19 +28,19 @@ public class Light extends ElectricalAppliance {
     private UDPMessageServer udpServer;
     private TCPMessageServer tcpServer;
     private ApplianceStateSender sender;
-    
+
     private int lightlevel;
     private int counter;
     private int motionDetectorCounter;
 
     public Light() {
-        state = LIGHT_OFF;
-        counter = 0;
-        lightlevel = 0;
-        motionDetectorCounter = 0;
+        this.state = LIGHT_OFF;
+        this.counter = 0;
+        this.lightlevel = 0;
+        this.motionDetectorCounter = 0;
     }
-    
-    public void startThreads(){
+
+    public void startThreads() {
         udpServer = new UDPMessageServer(new DetectorUDPMessageProtocol(this));
         tcpServer = new TCPMessageServer(new DetectorTCPMessageProtocol(this));
         Random r = new Random(System.currentTimeMillis());
@@ -55,11 +55,18 @@ public class Light extends ElectricalAppliance {
      * @param args the command line arguments
      */
     private void checkDesiredState() {
-        if (counter != 0 && (lightlevel < LIGHT_LVL_THRESHOLD || state == LIGHT_ON)) {
-            setState(LIGHT_ON);
+        System.out.println("Check: counter = " + counter + ", lightlevel = " + lightlevel + ", state = " + state);
+        if (counter != 0) {
             counter--;
-            motionDetectorCounter--;            
+            if (motionDetectorCounter != 0) {
+                motionDetectorCounter--;
+            }
+            if (lightlevel < LIGHT_LVL_THRESHOLD) {
+                System.out.println("Turn light on");
+                setState(LIGHT_ON);
+            }
         } else {
+            System.out.println("Turn light off");
             setState(LIGHT_OFF);
         }
     }
