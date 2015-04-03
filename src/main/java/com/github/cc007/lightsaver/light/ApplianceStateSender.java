@@ -6,7 +6,6 @@
 package com.github.cc007.lightsaver.light;
 
 import com.github.cc007.lightsaver.datacontroller.ApplianceStateMessage;
-import com.github.cc007.lightsaver.detector.motion.MotionDetectorMessage;
 import com.github.cc007.lightsaver.message.Message;
 import com.github.cc007.lightsaver.message.MessageTypes;
 import com.github.cc007.lightsaver.message.rabbitmq.RMQMessageSender;
@@ -21,8 +20,8 @@ public class ApplianceStateSender extends RMQMessageSender {
     private final int clientId;
     private int state;
 
-    public ApplianceStateSender(int clientId) {
-        super("State change sender: " + clientId);
+    public ApplianceStateSender(String serverAddress, int clientId) {
+        super(serverAddress, "State change sender: " + clientId);
         this.clientId = clientId;
         this.state = 0;
         this.send = false;

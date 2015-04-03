@@ -6,10 +6,8 @@
 package com.github.cc007.lightsaver.light;
 
 import com.github.cc007.lightsaver.datacollection.ElectricalAppliance;
-import com.github.cc007.lightsaver.message.tcp.TCPMessageProtocol;
 import com.github.cc007.lightsaver.message.tcp.TCPMessageServer;
 import com.github.cc007.lightsaver.message.udp.UDPMessageServer;
-import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -40,12 +38,10 @@ public class Light extends ElectricalAppliance {
         this.motionDetectorCounter = 0;
     }
 
-    public void startThreads() {
+    public void startThreads(String serverAddress, int clientId) {
         udpServer = new UDPMessageServer(new DetectorUDPMessageProtocol(this));
         tcpServer = new TCPMessageServer(new DetectorTCPMessageProtocol(this));
-        Random r = new Random(System.currentTimeMillis());
-        int clientId = r.nextInt(1000); //TODO make client id unique
-        sender = new ApplianceStateSender(clientId);
+        sender = new ApplianceStateSender(serverAddress, clientId);
         sender.start();
         udpServer.start();
         tcpServer.start();
@@ -84,8 +80,22 @@ public class Light extends ElectricalAppliance {
     }
 
     public static void main(String[] args) {
+        int clientId = 0;
+        String serverAddress = null;
+        if (args.length != 2) {
+            System.err.println("Invalid use: needs 2 arguments, namely the client id and the server inet address.");
+            System.exit(-1);
+        } else {
+            try {
+                clientId = Integer.parseInt(args[0]);
+            } catch (NumberFormatException e) {
+                System.err.println("Argument " + args[0] + " must be an integer.");
+                System.exit(-1);
+            }
+            serverAddress = args[1];
+        }
         Light l = new Light();
-        l.startThreads();
+        l.startThreads(serverAddress, clientId);
         while (true) {
             l.checkDesiredState();
             try {

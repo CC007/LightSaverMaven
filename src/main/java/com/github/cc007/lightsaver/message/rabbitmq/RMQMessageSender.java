@@ -19,8 +19,6 @@ import java.util.logging.Logger;
  */
 public abstract class RMQMessageSender extends Thread {
 
-    private static final String SERVER_ADDRESS = "localhost";
-
     protected Message m;
     protected boolean send;
     protected boolean exit;
@@ -30,10 +28,10 @@ public abstract class RMQMessageSender extends Thread {
     private Connection con;
     private Channel ch;
 
-    public RMQMessageSender() {
+    public RMQMessageSender(String serverAddress) {
         try {
             ConnectionFactory factory = new ConnectionFactory();
-            factory.setHost(SERVER_ADDRESS);
+            factory.setHost(serverAddress);
             this.con = factory.newConnection();
             this.ch = con.createChannel();
             this.ch.queueDeclare(RMQMessageReceiver.QUEUE_NAME, false, false, false, null);
@@ -44,8 +42,8 @@ public abstract class RMQMessageSender extends Thread {
         }
     }
 
-    public RMQMessageSender(String name) {
-        this();
+    public RMQMessageSender(String serverAddress, String name) {
+        this(serverAddress);
         setName(name);
     }
 
