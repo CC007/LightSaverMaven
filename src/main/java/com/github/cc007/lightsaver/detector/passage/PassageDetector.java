@@ -17,9 +17,21 @@ public class PassageDetector {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Random r = new Random(System.currentTimeMillis());
-        int clientId = r.nextInt(1000); //TODO make client id unique
-        PassageDetectorClient pdc = new  PassageDetectorClient(clientId);
+        int clientId = 0;
+        String serverAddress = null;
+        if (args.length != 2) {
+            System.err.println("Invalid use: needs 2 arguments, namely the client id and the server inet address.");
+            System.exit(-1);
+        } else {
+            try {
+                clientId = Integer.parseInt(args[0]);
+            } catch (NumberFormatException e) {
+                System.err.println("Argument " + args[0] + " must be an integer.");
+                System.exit(-1);
+            }
+            serverAddress = args[1];
+        }
+        PassageDetectorClient pdc = new  PassageDetectorClient(clientId, serverAddress);
         pdc.start();
     }
     

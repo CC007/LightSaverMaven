@@ -21,8 +21,6 @@ import java.util.logging.Logger;
  */
 public abstract class UDPMessageClient extends Thread {
 
-    private static final String SERVER_ADDRESS = "localhost";
-
     protected Message m;
     protected boolean send;
     protected boolean exit;
@@ -30,14 +28,16 @@ public abstract class UDPMessageClient extends Thread {
 
     private byte[] mBuffer;
     private DatagramSocket s = null;
+    private String serverAddress = "localhost";
 
-    public UDPMessageClient() {
+    public UDPMessageClient(String serverAddress) {
         this.send = true;
         this.exit = false;
+        this.serverAddress = serverAddress;
     }
 
-    public UDPMessageClient(String name) {
-        this();
+    public UDPMessageClient(String name, String serverAddress) {
+        this(serverAddress);
         setName(name);
     }
 
@@ -70,7 +70,7 @@ public abstract class UDPMessageClient extends Thread {
 
                         // connection part
                         s = new DatagramSocket();
-                        InetAddress lightDetectorServer = InetAddress.getByName(SERVER_ADDRESS);
+                        InetAddress lightDetectorServer = InetAddress.getByName(serverAddress);
 
                         // send message
                         DatagramPacket ldmPacket = new DatagramPacket(mBuffer, getMessageSize(), lightDetectorServer, UDPMessageServer.SERVER_PORT);

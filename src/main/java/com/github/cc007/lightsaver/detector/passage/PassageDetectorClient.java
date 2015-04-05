@@ -12,8 +12,8 @@ public class PassageDetectorClient extends UDPMessageClient {
 
     protected int clientId;
 
-    public PassageDetectorClient(int clientId) {
-        super("Passage detector #" + clientId);
+    public PassageDetectorClient(int clientId, String serverAddress) {
+        super("Passage detector #" + clientId, serverAddress);
         this.clientId = clientId;
     }
 

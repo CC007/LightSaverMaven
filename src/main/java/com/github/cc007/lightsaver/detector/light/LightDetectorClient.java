@@ -12,8 +12,8 @@ public class LightDetectorClient extends UDPMessageClient {
 
     protected int clientId;
 
-    public LightDetectorClient(int clientId) {
-        super("Light detector #" + clientId);
+    public LightDetectorClient(int clientId, String serverAddress) {
+        super("Light detector #" + clientId, serverAddress);
         this.clientId = clientId;
     }
 
