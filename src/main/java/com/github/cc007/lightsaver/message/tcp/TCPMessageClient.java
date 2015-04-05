@@ -19,7 +19,6 @@ import java.util.logging.Logger;
  */
 public abstract class TCPMessageClient extends Thread {
 
-    private static final String SERVER_ADDRESS = "localhost";
 
     protected Message m;
     protected boolean send;
@@ -30,14 +29,16 @@ public abstract class TCPMessageClient extends Thread {
     private DataInputStream in;
     private byte[] mBuffer;
     private Socket s = null;
+    private String serverAddress = "localhost";
 
-    public TCPMessageClient() {
+    public TCPMessageClient(String serverAddress) {
         this.send = true;
         this.exit = false;
+        this.serverAddress = serverAddress;
     }
 
-    public TCPMessageClient(String name) {
-        this();
+    public TCPMessageClient(String name, String serverAddress) {
+        this(serverAddress);
         setName(name);
     }
 
@@ -67,7 +68,7 @@ public abstract class TCPMessageClient extends Thread {
                         mBuffer = writeToBuffer();
 
                         //connection part
-                        s = new Socket(SERVER_ADDRESS, TCPMessageServer.SERVER_PORT);
+                        s = new Socket(serverAddress, TCPMessageServer.SERVER_PORT);
                         in = new DataInputStream(s.getInputStream());
                         out = new DataOutputStream(s.getOutputStream());
 

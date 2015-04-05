@@ -22,8 +22,8 @@ public class DoorDetectorClient extends TCPMessageClient {
     protected int clientId;
     private boolean doorstate;
 
-    public DoorDetectorClient(int clientId) {
-        super("Door detector #" + clientId);
+    public DoorDetectorClient(int clientId, String serverAddress) {
+        super("Door detector #" + clientId, serverAddress);
         this.clientId = clientId;
         this.doorstate = false;
     }
