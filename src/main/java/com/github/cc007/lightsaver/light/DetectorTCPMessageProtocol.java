@@ -33,9 +33,10 @@ public class DetectorTCPMessageProtocol implements TCPMessageProtocol {
             switch (type) {
                 case MessageTypes.DOOR_DETECTOR_MSG:
                     m = new DoorDetectorMessage(type, in.readInt(), in.readBoolean());
-                    l.setCounter(l.LIGHT_COUNTER_RESET_VALUE);
+                    l.setCounter(l.COUNTER_RESET_VALUE);
                     if(((DoorDetectorMessage) m).isClosed()){
                         l.setMotionDetectorCounter(l.MOTION_DETECTOR_COUNTER_RESET_VALUE);
+                        System.out.println("Door detector " + ((DoorDetectorMessage)m).getClientId() + " reset counter to: " + l.COUNTER_RESET_VALUE);
                     }
                     break;
                 default:

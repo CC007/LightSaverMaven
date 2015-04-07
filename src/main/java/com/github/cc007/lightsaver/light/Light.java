@@ -20,8 +20,8 @@ public class Light extends ElectricalAppliance {
     public static final int LIGHT_OFF = 0;
     public static final int LIGHT_ON = 1;
     public static final int LIGHT_LVL_THRESHOLD = 50;
-    public static final int LIGHT_COUNTER_RESET_VALUE = 50;
-    public static final int MOTION_DETECTOR_COUNTER_RESET_VALUE = 5;
+    public static final int COUNTER_RESET_VALUE = 2;
+    public static final int MOTION_DETECTOR_COUNTER_RESET_VALUE = 2;
 
     private UDPMessageServer udpServer;
     private TCPMessageServer tcpServer;
@@ -77,6 +77,10 @@ public class Light extends ElectricalAppliance {
 
     public synchronized void setMotionDetectorCounter(int motionDetectorCounter) {
         this.motionDetectorCounter = motionDetectorCounter;
+    }
+    
+    public synchronized int getMotionDetectorCounter() {
+        return motionDetectorCounter;
     }
 
     public static void main(String[] args) {

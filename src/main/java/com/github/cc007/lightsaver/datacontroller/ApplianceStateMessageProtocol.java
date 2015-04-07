@@ -23,7 +23,7 @@ public class ApplianceStateMessageProtocol implements RMQMessageProtocol {
         switch (ByteBuffer.wrap(mBuffer).getInt(0)) {
             case MessageTypes.APPLIANCE_STATE_CHANGE_MSG:
                 m = new ApplianceStateMessage(MessageTypes.APPLIANCE_STATE_CHANGE_MSG, ByteBuffer.wrap(mBuffer).getInt(4), ByteBuffer.wrap(mBuffer).getInt(8));
-                System.out.println("Something needs to be done with the logging of state " + ((ApplianceStateMessage)m).getState() + " for client: " + ((ApplianceStateMessage)m).getClientId());
+                System.out.println("Something needs to be done with the logging of state " + ((ApplianceStateMessage)m).getState() + " for client: " + ((ApplianceStateMessage)m).getClientId() + " at time: " + System.currentTimeMillis());
                 break;
             default:
                 System.err.println("Unknown message type found: " + ByteBuffer.wrap(mBuffer).getInt(0));
