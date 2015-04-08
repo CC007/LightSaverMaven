@@ -20,6 +20,7 @@ import javax.jdo.Transaction;
 public class DataController {
 
     private final StateLog states;
+    PersistenceManagerFactory pmf;
 
     public DataController() {
         this.states = new StateLog("statelog");
@@ -45,17 +46,27 @@ public class DataController {
         System.out.println("");
     }
 
-    public ReferencableMethod storeState = new ReferencableMethod() {
+    public ReferencableMethod addEntry = new ReferencableMethod() {
 
         @Override
         public void execute(Object... args) {
             PersistenceManager pm = (PersistenceManager) args[0];
-            Object argsArray = (Object[]) args[1];
-            //Entry e = new Entry(argsArray[0], argsArray[1], argsArray[2]);
+            Object[] argsArray = (Object[]) (args[1]);
+            Entry e = new Entry((Integer) argsArray[0], (Integer) argsArray[1], (Long) argsArray[2]);
+            states.getEntries().add(e);
             pm.makePersistent(states);
         }
     };
 
+    public ReferencableMethod getEntries = new ReferencableMethod() {
+
+        @Override
+        public void execute(Object... args) {
+            PersistenceManager pm = (PersistenceManager) args[0];
+            
+        }
+    };
+    
     /**
      * @param args the command line arguments
      */
