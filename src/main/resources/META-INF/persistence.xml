@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
   <!-- Tutorial "unit" -->
-  <persistence-unit name="Tutorial">
-    <class>org.datanucleus.samples.jdo.tutorial.Inventory</class>
-    <class>org.datanucleus.samples.jdo.tutorial.Product</class>
-    <class>org.datanucleus.samples.jdo.tutorial.Book</class>
+  <persistence-unit name="StatesLog">
+    <class>com.github.cc007.lightsaver.datacontroller.storage.Entry</class>
+    <class>com.github.cc007.lightsaver.datacontroller.storage.StateLog</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <!-- ENABLE THESE FOR H2 -->
@@ -23,7 +22,7 @@
       <property name="javax.jdo.option.ConnectionURL" value="jdbc:mysql://127.0.0.1/nucleus?useServerPrepStmts=false"/>
       <property name="javax.jdo.option.ConnectionDriverName" value="com.mysql.jdbc.Driver"/>
       <property name="javax.jdo.option.ConnectionUserName" value="root"/>
-      <property name="javax.jdo.option.ConnectionPassword" value="Flimgbrood!45"/>
+      <property name="javax.jdo.option.ConnectionPassword" value="datacontrollerNc2015"/>
       <property name="javax.jdo.option.Mapping" value="mysql"/>
       <!-- ENABLE THESE FOR ODF -->
       <!--property name="javax.jdo.option.ConnectionURL" value="odf:file:tutorial.ods"/>
