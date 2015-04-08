@@ -10,28 +10,53 @@ import com.github.cc007.lightsaver.datacontroller.storage.StateLog;
 import com.github.cc007.lightsaver.message.rabbitmq.RMQMessageReceiver;
 import com.github.cc007.lightsaver.utils.ReferencableMethod;
 import com.github.cc007.lightsaver.utils.TransactionHandler;
+import java.util.HashSet;
+import java.util.Set;
 import javax.jdo.JDOHelper;
+import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
-import javax.jdo.Transaction;
 
 /**
  *
  * @author Rik
  */
-public class DataController extends TransactionHandler{
+public class DataController extends TransactionHandler {
 
-    private final StateLog states;
-    private final PersistenceManagerFactory pmf;
+    private StateLog states = null;
+    private PersistenceManagerFactory pmf;
 
     public DataController() {
-        this.states = new StateLog("statelog");
         this.pmf = JDOHelper.getPersistenceManagerFactory("StateLog");
+        PersistenceManager pm = pmf.getPersistenceManager();
+        try {
+            this.states = (StateLog) pm.getObjectById(pm.newObjectIdInstance(StateLog.class, "StateLog"));
+            System.out.println("Found existing StateLog");
+        } catch (JDOObjectNotFoundException ex) {
+            this.states = new StateLog("StateLog");
+        }
     }
-    public void addEntry(int clientId, int state, long date){
+
+    public void setPmf(PersistenceManagerFactory pmf) {
+        this.pmf = pmf;
+    }    
+
+    public void addEntry(int clientId, int state, long date) {
         handleTransaction(pmf, addEntry, new Object[]{clientId, state, date});
     }
 
+    public Set<Entry> getEntries(long startDate, long endDate, int appliancId) {
+        Set<Entry> returnSet = new HashSet<>();
+        handleTransaction(pmf, getEntries, new Object[]{startDate, endDate, returnSet, appliancId});
+        return returnSet;
+    }
+    
+    public Set<Entry> getEntries(long startDate, long endDate) {
+        Set<Entry> returnSet = new HashSet<>();
+        handleTransaction(pmf, getEntries, new Object[]{startDate, endDate, returnSet});
+        return returnSet;
+    }
+    
     public ReferencableMethod addEntry = new ReferencableMethod() {
 
         @Override
@@ -49,10 +74,10 @@ public class DataController extends TransactionHandler{
         @Override
         public void execute(Object... args) {
             PersistenceManager pm = (PersistenceManager) args[0];
-            //TODO get entries
+            //TODO add items to t
         }
     };
-    
+
     /**
      * @param args the command line arguments
      */

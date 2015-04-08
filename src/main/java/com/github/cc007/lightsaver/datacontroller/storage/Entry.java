@@ -36,13 +36,14 @@ public class Entry {
 
     protected int clientId = 0;
 
-    protected int price = 0;
+    protected int state = 0;
 
     protected long date = 0;
 
-    public Entry(int clientId, int price, long date) {
+    public Entry(int clientId, int state, long date) {
         this.clientId = clientId;
-        this.price = price;
+        this.state = state;
+        this.date = date;
     }
 
     public long getId() {
@@ -54,15 +55,15 @@ public class Entry {
     }
 
     public int getPrice() {
-        return price;
+        return state;
     }
 
     public void setName(int clientId) {
         this.clientId = clientId;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
+    public void setPrice(int state) {
+        this.state = state;
     }
 
     public long getDate() {
