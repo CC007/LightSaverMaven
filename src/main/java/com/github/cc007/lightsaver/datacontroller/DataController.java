@@ -44,18 +44,18 @@ public class DataController {
         }
         System.out.println("");
     }
-    
+
     public ReferencableMethod storeState = new ReferencableMethod() {
 
         @Override
         public void execute(Object... args) {
             PersistenceManager pm = (PersistenceManager) args[0];
-            Object argsArray
-            Entry e = new Entry(clientId, price, date)
+            Object argsArray = (Object[]) args[1];
+            //Entry e = new Entry(argsArray[0], argsArray[1], argsArray[2]);
             pm.makePersistent(states);
         }
     };
-    
+
     /**
      * @param args the command line arguments
      */
