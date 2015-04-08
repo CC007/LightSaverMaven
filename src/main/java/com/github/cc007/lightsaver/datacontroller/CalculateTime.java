@@ -20,25 +20,11 @@ public class CalculateTime implements Task<Integer>, Serializable {
     
     @Override
     public Integer execute() {
-        //TODO fix this.
-        /*
-        * from the tutorial main of calculatePi
-        if (System.getSecurityManager() == null) {
-            System.setSecurityManager(new SecurityManager());
-        }
-        try {
-            String name = "Compute";
-            // args[0] not available here
-            //Registry registry = LocateRegistry.getRegistry(args[0]);
-            //Compute comp = (Compute) registry.lookup(name);
-            //Pi task = new Pi(Integer.parseInt(args[1])); //Pi implements Task<BigDecimal>
-            //BigDecimal pi = comp.executeTask(task);
-            // System.out.println(pi);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-                
-        */
-        return 1;
+        return computeTime();
+    }
+
+    private Integer computeTime() {
+        //TODO
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
