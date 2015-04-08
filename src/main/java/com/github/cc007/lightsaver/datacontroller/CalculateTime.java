@@ -42,7 +42,7 @@ public class CalculateTime extends TransactionHandler implements Task<Integer>, 
     private Integer computeTime() {
         //TODO Check if this works.
         Integer returnValue = 0;
-        this.handleTransaction(JDOHelper.getPersistenceManagerFactory("Statelog"), compTime, new Object[]{returnValue});
+        this.handleTransaction(JDOHelper.getPersistenceManagerFactory("StateLog"), compTime, new Object[]{returnValue});
         return returnValue;
     }
 }
