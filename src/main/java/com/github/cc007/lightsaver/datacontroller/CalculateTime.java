@@ -23,6 +23,8 @@ public class CalculateTime extends TransactionHandler implements Task<Integer>, 
 
     private static final long serialVersionUID = 272L;
     
+    // TODO impl constructor with mode, startDate, endDate, (roomID)
+    
     @Override
     public Integer execute() {
         return computeTime();
