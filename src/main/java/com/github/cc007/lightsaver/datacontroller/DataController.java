@@ -65,7 +65,7 @@ public class DataController {
         @Override
         public void execute(Object... args) {
             PersistenceManager pm = (PersistenceManager) args[0];
-            
+            //TODO get entries
         }
     };
     
