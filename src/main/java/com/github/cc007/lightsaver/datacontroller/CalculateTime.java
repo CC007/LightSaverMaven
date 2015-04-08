@@ -5,27 +5,40 @@
  */
 package com.github.cc007.lightsaver.datacontroller;
 
+import java.io.Serializable;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import org.rug.netcomputing.rmi.base.Compute;
+import org.rug.netcomputing.rmi.base.Task;
 /**
  *
  * @author Aerylia
  */
-public class CalculateTime {
+public class CalculateTime implements Task<Integer>, Serializable {   
 
-    public static void main(String args[]) {
+    private static final long serialVersionUID = 272L;
+    
+    @Override
+    public Integer execute() {
         //TODO fix this.
+        /*
+        * from the tutorial main of calculatePi
         if (System.getSecurityManager() == null) {
             System.setSecurityManager(new SecurityManager());
         }
         try {
             String name = "Compute";
-            Registry registry = LocateRegistry.getRegistry(args[0]);
-            Compute comp = (Compute) registry.lookup(name);
+            // args[0] not available here
+            //Registry registry = LocateRegistry.getRegistry(args[0]);
+            //Compute comp = (Compute) registry.lookup(name);
+            //Pi task = new Pi(Integer.parseInt(args[1])); //Pi implements Task<BigDecimal>
+            //BigDecimal pi = comp.executeTask(task);
+            // System.out.println(pi);
         } catch (Exception e) {
-            System.err.println("ComputePi exception:");
             e.printStackTrace();
         }
-    }    
+                
+        */
+        return 1;
+    }
 }

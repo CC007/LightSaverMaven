@@ -18,7 +18,7 @@ import javax.jdo.Transaction;
  *
  * @author Rik
  */
-public class DataController {
+public class DataController{
 
     private final StateLog states;
     PersistenceManagerFactory pmf;
@@ -75,6 +75,8 @@ public class DataController {
     public static void main(String[] args) {
         RMQMessageReceiver asr = new RMQMessageReceiver(new ApplianceStateMessageProtocol(new DataController()));
         asr.start();
+        ComputeEngineStarter ces = new ComputeEngineStarter();
+        ces.start();
     }
 
 }

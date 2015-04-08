@@ -9,7 +9,6 @@ public abstract class RmiStarter {
         if(System.getSecurityManager() == null) {
             System.setSecurityManager(new SecurityManager());
         }
-        start();
     }
     /**
      * extend this class and do RMI handling here
