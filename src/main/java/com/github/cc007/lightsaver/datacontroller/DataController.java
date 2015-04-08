@@ -9,6 +9,7 @@ import com.github.cc007.lightsaver.datacontroller.storage.Entry;
 import com.github.cc007.lightsaver.datacontroller.storage.StateLog;
 import com.github.cc007.lightsaver.message.rabbitmq.RMQMessageReceiver;
 import com.github.cc007.lightsaver.utils.ReferencableMethod;
+import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Transaction;
@@ -24,6 +25,7 @@ public class DataController {
 
     public DataController() {
         this.states = new StateLog("statelog");
+        this.pmf = JDOHelper.getPersistenceManagerFactory("StateLog");
     }
 
     private void handleTransaction(PersistenceManagerFactory pmf, ReferencableMethod cmd, Object[] args) {
