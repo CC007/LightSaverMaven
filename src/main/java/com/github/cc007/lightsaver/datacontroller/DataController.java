@@ -5,8 +5,8 @@
  */
 package com.github.cc007.lightsaver.datacontroller;
 
+import com.github.cc007.lightsaver.datacontroller.storage.StateLog;
 import com.github.cc007.lightsaver.message.rabbitmq.RMQMessageReceiver;
-import java.util.HashMap;
 
 /**
  *
@@ -14,7 +14,7 @@ import java.util.HashMap;
  */
 public class DataController {
 
-    HashMap<Integer, Integer> states;
+    StateLog states = new StateLog("statelog");
     
     /**
      * @param args the command line arguments
