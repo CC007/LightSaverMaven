@@ -17,6 +17,11 @@ import java.nio.ByteBuffer;
  * @author Rik
  */
 public class ApplianceStateMessageProtocol implements RMQMessageProtocol {
+    DataController dc;
+
+    public ApplianceStateMessageProtocol(DataController dc) {
+        this.dc = dc;
+    }
     
     @Override
     public void processInput(byte[] mBuffer, Message m){

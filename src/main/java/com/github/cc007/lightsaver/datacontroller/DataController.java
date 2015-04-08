@@ -5,6 +5,7 @@
  */
 package com.github.cc007.lightsaver.datacontroller;
 
+import com.github.cc007.lightsaver.datacontroller.storage.Entry;
 import com.github.cc007.lightsaver.datacontroller.storage.StateLog;
 import com.github.cc007.lightsaver.message.rabbitmq.RMQMessageReceiver;
 import com.github.cc007.lightsaver.utils.ReferencableMethod;
@@ -48,8 +49,9 @@ public class DataController {
 
         @Override
         public void execute(Object... args) {
-            
             PersistenceManager pm = (PersistenceManager) args[0];
+            Object argsArray
+            Entry e = new Entry(clientId, price, date)
             pm.makePersistent(states);
         }
     };
