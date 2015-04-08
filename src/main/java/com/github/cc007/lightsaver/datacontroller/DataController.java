@@ -9,6 +9,7 @@ import com.github.cc007.lightsaver.datacontroller.storage.Entry;
 import com.github.cc007.lightsaver.datacontroller.storage.StateLog;
 import com.github.cc007.lightsaver.message.rabbitmq.RMQMessageReceiver;
 import com.github.cc007.lightsaver.utils.ReferencableMethod;
+import com.github.cc007.lightsaver.utils.TransactionHandler;
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
@@ -18,7 +19,7 @@ import javax.jdo.Transaction;
  *
  * @author Rik
  */
-public class DataController{
+public class DataController extends TransactionHandler{
 
     private final StateLog states;
     private final PersistenceManagerFactory pmf;
@@ -26,26 +27,6 @@ public class DataController{
     public DataController() {
         this.states = new StateLog("statelog");
         this.pmf = JDOHelper.getPersistenceManagerFactory("StateLog");
-    }
-
-    private void handleTransaction(PersistenceManagerFactory pmf, ReferencableMethod cmd, Object[] args) {
-
-        PersistenceManager pm = pmf.getPersistenceManager();
-        Transaction tx = pm.currentTransaction();
-        try {
-            tx.begin();
-            cmd.execute(pm, args);
-            tx.commit();
-            System.out.println("Transaction committed");
-        } catch (Exception e) {
-            System.out.println("Exception during transaction: " + e.getMessage());
-        } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
-            pm.close();
-        }
-        System.out.println("");
     }
     public void addEntry(int clientId, int state, long date){
         handleTransaction(pmf, addEntry, new Object[]{clientId, state, date});

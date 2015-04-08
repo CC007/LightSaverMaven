@@ -5,6 +5,7 @@
  */
 package com.github.cc007.lightsaver.datacontroller;
 
+import com.github.cc007.lightsaver.utils.TransactionHandler;
 import java.io.Serializable;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -14,7 +15,7 @@ import org.rug.netcomputing.rmi.base.Task;
  *
  * @author Aerylia
  */
-public class CalculateTime implements Task<Integer>, Serializable {   
+public class CalculateTime extends TransactionHandler implements Task<Integer>, Serializable {   
 
     private static final long serialVersionUID = 272L;
     
