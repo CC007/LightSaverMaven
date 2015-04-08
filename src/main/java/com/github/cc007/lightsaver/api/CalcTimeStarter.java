@@ -7,6 +7,12 @@ package com.github.cc007.lightsaver.api;
 
 import org.rug.netcomputing.rmi.base.RmiStarter;
 
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
+import org.rug.netcomputing.rmi.base.Compute;
+import org.rug.netcomputing.rmi.base.RmiStarter;
+import com.github.cc007.lightsaver.datacontroller.CalculateTime;
 /**
  *
  * @author Aerylia
@@ -15,8 +21,20 @@ public class CalcTimeStarter extends RmiStarter {
 
     @Override
     public void start() {
-        //TODO
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            Registry registry = LocateRegistry.getRegistry();
+            Compute compute = (Compute) registry.lookup(Compute.SERVICE_NAME);
+            CalculateTime task = new CalculateTime();
+            Integer i = compute.executeTask(task);
+            System.out.println("computed time: " + i);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
+    public static void main(String[] args) {
+        CalcTimeStarter cts = new CalcTimeStarter();
+        cts.start();
+    }
+
 }
