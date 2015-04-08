@@ -21,7 +21,7 @@ import javax.jdo.Transaction;
 public class DataController {
 
     private final StateLog states;
-    PersistenceManagerFactory pmf;
+    private final PersistenceManagerFactory pmf;
 
     public DataController() {
         this.states = new StateLog("statelog");
@@ -46,6 +46,9 @@ public class DataController {
             pm.close();
         }
         System.out.println("");
+    }
+    public void addEntry(int clientId, int state, long date){
+        handleTransaction(pmf, addEntry, new Object[]{clientId, state, date});
     }
 
     public ReferencableMethod addEntry = new ReferencableMethod() {
