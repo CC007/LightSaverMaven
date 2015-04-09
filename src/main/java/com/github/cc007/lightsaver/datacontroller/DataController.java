@@ -84,10 +84,16 @@ public class DataController extends TransactionHandler {
             Object[] argsArray = (Object[]) (args[1]);
             long startDate = (long) argsArray[0];
             long endDate = (long) argsArray[1];
-            int clientId = (int) argsArray[2];
+            int applianceId = (int) argsArray[2];
             Set<Entry> returnSet = (Set<Entry>) argsArray[3];
-            Query q = pm.newQuery("SELECT FROM " + Entry.class.getName()
-                    + " WHERE CLIENTID = " + clientId + " AND date > " + startDate + " AND date < " + endDate + " ORDER BY price ASC");
+            Query q;
+            if (applianceId == 0) {
+                q = pm.newQuery("SELECT FROM " + Entry.class.getName()
+                        + " WHERE date > " + startDate + " AND date < " + endDate + " ORDER BY price ASC");
+            } else {
+                q = pm.newQuery("SELECT FROM " + Entry.class.getName()
+                        + " WHERE CLIENTID = " + applianceId + " AND date > " + startDate + " AND date < " + endDate + " ORDER BY price ASC");
+            }
             List<Entry> products = (List<Entry>) q.execute();
             Iterator<Entry> iter = products.iterator();
             while (iter.hasNext()) {
