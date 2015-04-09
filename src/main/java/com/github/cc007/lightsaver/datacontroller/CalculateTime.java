@@ -5,11 +5,15 @@
  */
 package com.github.cc007.lightsaver.datacontroller;
 
+import com.github.cc007.lightsaver.appliance.light.Light;
+import com.github.cc007.lightsaver.datacontroller.storage.Entry;
 import com.github.cc007.lightsaver.datacontroller.task.DataTask;
 import com.github.cc007.lightsaver.utils.ReferencableMethod;
 import com.github.cc007.lightsaver.utils.TransactionHandler;
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.Iterator;
+import java.util.Set;
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 
@@ -27,7 +31,7 @@ public class CalculateTime implements DataTask<Integer>, Serializable {
     private int mode;
     private long startDate;
     private long endDate;
-    private int roomID;
+    private int applianceID;
     
     DataController dc;
     
@@ -39,11 +43,11 @@ public class CalculateTime implements DataTask<Integer>, Serializable {
         this(mode, startDate, endDate, 0);
     }
     
-    public CalculateTime(int mode, long startDate, long endDate, int roomID){
+    public CalculateTime(int mode, long startDate, long endDate, int applianceID){
         this.mode = mode;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.roomID = roomID;
+        this.applianceID = applianceID;
     }
     
     @Override
@@ -51,23 +55,31 @@ public class CalculateTime implements DataTask<Integer>, Serializable {
         return computeTime();
     }
 
-    public ReferencableMethod compTime = new ReferencableMethod() {
-
-        @Override
-        public void execute(Object... args) {
-            PersistenceManager pm = (PersistenceManager) args[0];
-            Object[] argsArray = (Object[]) (args[1]);
-            //TODO get entries and calc time
-        }
-    };
-
     private Integer computeTime() {
         //TODO Check if this works.
         Integer returnValue = 0;
 
-        dc.getEntries(0L, 0L);//TODO Dummy
-        //or
-        dc.getEntries(0L, 0L, 0);//TODO Dummy
+        Set<Entry> entries = dc.getEntries(startDate, endDate, applianceID);
+        boolean prevOn = false;
+        long accumTime = 0;
+        long time = 0;
+        Iterator<Entry> it = entries.iterator();
+        while(it.hasNext()){
+            Entry e = it.next();
+            if(applianceID == 0 || applianceID == e.getClientId()){
+                if(e.getPrice() == Light.LIGHT_ON){
+                    if(!prevOn){
+                        time = e.getDate();
+                        prevOn = true;
+                    }
+                } else {
+                    if(prevOn){
+                        accumTime += e.getDate() - time;
+                        prevOn = false;
+                    }
+                }
+            }
+        }
         return returnValue;
     }
 
