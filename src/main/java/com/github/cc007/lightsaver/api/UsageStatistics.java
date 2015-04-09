@@ -5,13 +5,10 @@
  */
 package com.github.cc007.lightsaver.api;
 
+import com.github.cc007.lightsaver.datacontroller.CalculateTime;
 import java.util.Date;
 
-/**
- *
- * @author Rik
- */
-public interface UsageStatistics {
+public class UsageStatistics {
 
     /**
      * This method can be used to return the number of hours that all lights
@@ -21,7 +18,11 @@ public interface UsageStatistics {
      * @param endDate end of the time interval
      * @return the number of hours
      */
-    public int getHours(Date startDate, Date endDate);
+    public static int getHours(Date startDate, Date endDate) {
+        CalcTimeStarter cts = new CalcTimeStarter(CalculateTime.HOURS, startDate.getTime(), endDate.getTime());
+        cts.start();
+        return cts.getResult();
+    }
 
     /**
      * This method can be used to return the number of hours that the lights in
@@ -29,10 +30,14 @@ public interface UsageStatistics {
      *
      * @param startDate start of the time interval
      * @param endDate end of the time interval
-     * @param roomId the identifier of the room
+     * @param applianceId the identifier of the appliance
      * @return the number of hours
      */
-    public int getHours(Date startDate, Date endDate, int roomId);
+    public static int getHours(Date startDate, Date endDate, int applianceId) {
+        CalcTimeStarter cts = new CalcTimeStarter(CalculateTime.HOURS, startDate.getTime(), endDate.getTime(), applianceId);
+        cts.start();
+        return cts.getResult();
+    }
 
     /**
      * This method can be used to return the number of seconds that all lights
@@ -42,7 +47,11 @@ public interface UsageStatistics {
      * @param endDate end of the time interval
      * @return the number of hours
      */
-    public int getSeconds(Date startDate, Date endDate);
+    public static int getSeconds(Date startDate, Date endDate) {
+        CalcTimeStarter cts = new CalcTimeStarter(CalculateTime.SECONDS, startDate.getTime(), endDate.getTime());
+        cts.start();
+        return cts.getResult();
+    }
 
     /**
      * This method can be used to return the number of seconds that the lights
@@ -50,29 +59,41 @@ public interface UsageStatistics {
      *
      * @param startDate start of the time interval
      * @param endDate end of the time interval
-     * @param roomId the identifier of the room
+     * @param applianceId the identifier of the appliance
      * @return the number of seconds
      */
-    public int getSeconds(Date startDate, Date endDate, int roomId);
+    public static int getSeconds(Date startDate, Date endDate, int applianceId) {
+        CalcTimeStarter cts = new CalcTimeStarter(CalculateTime.SECONDS, startDate.getTime(), endDate.getTime(), applianceId);
+        cts.start();
+        return cts.getResult();
+    }
 
     /**
-     * This method can be used to return the amount of electricity that all lights
-     * have used in a given time interval
+     * This method can be used to return the amount of electricity that all
+     * lights have used in a given time interval
      *
      * @param startDate start of the time interval
      * @param endDate end of the time interval
      * @return the number of hours
      */
-    public double getElectricityUsage(Date startDate, Date endDate);
-
-    /**
+    public static double getElectricityUsage(Date startDate, Date endDate) {
+        CalcTimeStarter cts = new CalcTimeStarter(CalculateTime.ELECTRICITY_USAGE, startDate.getTime(), endDate.getTime());
+        cts.start();
+        return cts.getResult();
+    }
+/**
      * This method can be used to return the amount of electricity that all lights
      * in a certain room have used in a given time interval
      *
      * @param startDate start of the time interval
      * @param endDate end of the time interval
-     * @param roomId the identifier of the room
+     * @param applianceId the identifier of the appliance
      * @return the number of seconds
      */
-    public double getElectricityUsage(Date startDate, Date endDate, int roomId);
+    public static double getElectricityUsage(Date startDate, Date endDate, int applianceId) {
+        CalcTimeStarter cts = new CalcTimeStarter(CalculateTime.ELECTRICITY_USAGE, startDate.getTime(), endDate.getTime(), applianceId);
+        cts.start();
+        return cts.getResult();
+    }
+
 }
