@@ -18,8 +18,10 @@ public class UsageStatisticsImpl implements UsageStatistics {
     }
 
     @Override
-    public int getHours(Date startDate, Date endDate, int roomId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int getHours(Date startDate, Date endDate, int applianceID) {
+        CalcTimeStarter cts = new CalcTimeStarter(CalculateTime.HOURS, startDate.getTime(), endDate.getTime(),applianceID);
+        cts.start();
+        return cts.getResult();
     }
 
     @Override
@@ -30,8 +32,10 @@ public class UsageStatisticsImpl implements UsageStatistics {
     }
 
     @Override
-    public int getSeconds(Date startDate, Date endDate, int roomId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int getSeconds(Date startDate, Date endDate, int applianceID) {
+        CalcTimeStarter cts = new CalcTimeStarter(CalculateTime.SECONDS, startDate.getTime(), endDate.getTime(), applianceID);
+        cts.start();
+        return cts.getResult();
     }
 
     @Override
@@ -42,8 +46,10 @@ public class UsageStatisticsImpl implements UsageStatistics {
     }
 
     @Override
-    public double getElectricityUsage(Date startDate, Date endDate, int roomId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public double getElectricityUsage(Date startDate, Date endDate, int applianceID) {
+        CalcTimeStarter cts = new CalcTimeStarter(CalculateTime.ELECTRICITY_USAGE, startDate.getTime(), endDate.getTime(), applianceID);
+        cts.start();
+        return cts.getResult();
     }
 
 }
