@@ -89,10 +89,10 @@ public class DataController extends TransactionHandler {
             Query q;
             if (applianceId == 0) {
                 q = pm.newQuery("SELECT FROM " + Entry.class.getName()
-                        + " WHERE date > " + startDate + " AND date < " + endDate + " ORDER BY price ASC");
+                        + " WHERE date > " + startDate + " AND date < " + endDate + " ORDER BY date ASC");
             } else {
                 q = pm.newQuery("SELECT FROM " + Entry.class.getName()
-                        + " WHERE CLIENTID = " + applianceId + " AND date > " + startDate + " AND date < " + endDate + " ORDER BY price ASC");
+                        + " WHERE CLIENTID = " + applianceId + " AND date > " + startDate + " AND date < " + endDate + " ORDER BY date ASC");
             }
             List<Entry> products = (List<Entry>) q.execute();
             Iterator<Entry> iter = products.iterator();
