@@ -11,11 +11,14 @@ import com.github.cc007.lightsaver.message.rabbitmq.RMQMessageReceiver;
 import com.github.cc007.lightsaver.utils.ReferencableMethod;
 import com.github.cc007.lightsaver.utils.TransactionHandler;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import javax.jdo.JDOHelper;
 import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
+import javax.jdo.Query;
 
 /**
  *
@@ -39,7 +42,7 @@ public class DataController extends TransactionHandler {
 
     public void setPmf(PersistenceManagerFactory pmf) {
         this.pmf = pmf;
-    }    
+    }
 
     public void addEntry(int clientId, int state, long date) {
         handleTransaction(pmf, addEntry, new Object[]{clientId, state, date});
@@ -47,16 +50,10 @@ public class DataController extends TransactionHandler {
 
     public Set<Entry> getEntries(long startDate, long endDate, int appliancId) {
         Set<Entry> returnSet = new HashSet<>();
-        handleTransaction(pmf, getEntries, new Object[]{startDate, endDate, returnSet, appliancId});
+        handleTransaction(pmf, getEntries, new Object[]{startDate, endDate, appliancId, returnSet});
         return returnSet;
     }
-    
-    public Set<Entry> getEntries(long startDate, long endDate) {
-        Set<Entry> returnSet = new HashSet<>();
-        handleTransaction(pmf, getEntries, new Object[]{startDate, endDate, returnSet});
-        return returnSet;
-    }
-    
+
     public ReferencableMethod initStateLog = new ReferencableMethod() {
 
         @Override
@@ -67,7 +64,7 @@ public class DataController extends TransactionHandler {
             pm.makePersistent(states);
         }
     };
-    
+
     public ReferencableMethod addEntry = new ReferencableMethod() {
 
         @Override
@@ -84,7 +81,19 @@ public class DataController extends TransactionHandler {
         @Override
         public void execute(Object... args) {
             PersistenceManager pm = (PersistenceManager) args[0];
-            //TODO add items to t
+            Object[] argsArray = (Object[]) (args[1]);
+            long startDate = (long) argsArray[0];
+            long endDate = (long) argsArray[1];
+            int clientId = (int) argsArray[2];
+            Set<Entry> returnSet = (Set<Entry>) argsArray[3];
+            Query q = pm.newQuery("SELECT FROM " + Entry.class.getName()
+                    + " WHERE CLIENTID = " + clientId + " AND date > " + startDate + " AND date < " + endDate + " ORDER BY price ASC");
+            List<Entry> products = (List<Entry>) q.execute();
+            Iterator<Entry> iter = products.iterator();
+            while (iter.hasNext()) {
+                Entry p = iter.next();
+                returnSet.add(p);
+            }
         }
     };
 
