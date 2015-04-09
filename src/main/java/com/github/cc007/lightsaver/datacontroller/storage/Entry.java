@@ -54,7 +54,7 @@ public class Entry {
         return clientId;
     }
 
-    public int getPrice() {
+    public int getState() {
         return state;
     }
 
@@ -62,7 +62,7 @@ public class Entry {
         this.clientId = clientId;
     }
 
-    public void setPrice(int state) {
+    public void setState(int state) {
         this.state = state;
     }
 

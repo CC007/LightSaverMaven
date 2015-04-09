@@ -87,7 +87,7 @@ public class CalculateTime implements DataTask<Integer>, Serializable {
         Iterator<Entry> it = entries.iterator();
         while (it.hasNext()) {
             Entry e = it.next();
-            if(e.getPrice() == Light.LIGHT_ON){
+            if(e.getState() == Light.LIGHT_ON){
                 if(!prevOn){
                     time = e.getDate();
                     prevOn = true;
