@@ -18,12 +18,15 @@ import org.rug.netcomputing.rmi.base.Task;
  */
 public class ComputeEngine implements Compute {
 
-    public ComputeEngine() {
-        super();
+    DataController dc;
+
+    public ComputeEngine(DataController dc) {
+        this.dc = dc;
     }
 
     @Override
     public <T> T executeTask(Task<T> t) {
+        t.setDataController(dc);
         return t.execute();
     }
 }

@@ -1,4 +1,7 @@
 package org.rug.netcomputing.rmi.base;
+
+import com.github.cc007.lightsaver.datacontroller.DataController;
+
 /**
  * The Task interface has a type parameter, T, which represents the result type
  * of the task's computation. This is an example of generic types, implemented
@@ -10,5 +13,8 @@ package org.rug.netcomputing.rmi.base;
  * implement Serializable, as must the classes of objects used for task results.
  */
 public interface Task<T> {
+
     T execute();
+
+    void setDataController(DataController dc);
 }

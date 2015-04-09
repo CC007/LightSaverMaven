@@ -15,21 +15,22 @@ import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 import org.rug.netcomputing.rmi.base.Compute;
 import org.rug.netcomputing.rmi.base.Task;
+
 /**
  *
  * @author Aerylia
  */
-public class CalculateTime extends TransactionHandler implements Task<Integer>, Serializable {   
+public class CalculateTime extends TransactionHandler implements Task<Integer>, Serializable {
 
     private static final long serialVersionUID = 272L;
-    
+    DataController dc;
     // TODO impl constructor with mode, startDate, endDate, (roomID)
-    
+
     @Override
     public Integer execute() {
         return computeTime();
     }
-    
+
     public ReferencableMethod compTime = new ReferencableMethod() {
 
         @Override
@@ -39,10 +40,16 @@ public class CalculateTime extends TransactionHandler implements Task<Integer>, 
             //TODO get entries and calc time
         }
     };
+
     private Integer computeTime() {
         //TODO Check if this works.
         Integer returnValue = 0;
         this.handleTransaction(JDOHelper.getPersistenceManagerFactory("StateLog"), compTime, new Object[]{returnValue});
         return returnValue;
+    }
+
+    @Override
+    public void setDataController(DataController dc) {
+        this.dc = dc;
     }
 }

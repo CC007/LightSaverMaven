@@ -10,11 +10,18 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import org.rug.netcomputing.rmi.base.Compute;
 import org.rug.netcomputing.rmi.base.RmiStarter;
+
 /**
  *
  * @author Aerylia
  */
-public class ComputeEngineStarter extends RmiStarter{
+public class ComputeEngineStarter extends RmiStarter {
+
+    DataController dc;
+
+    public ComputeEngineStarter(DataController dc) {
+        this.dc = dc;
+    }
 
     @Override
     public void start() {
@@ -24,9 +31,9 @@ public class ComputeEngineStarter extends RmiStarter{
         }
         try {
             String name = "Compute";
-            Compute engine = new ComputeEngine();
-            Compute stub =
-                (Compute) UnicastRemoteObject.exportObject(engine, 0);
+            Compute engine = new ComputeEngine(dc);
+            Compute stub
+                    = (Compute) UnicastRemoteObject.exportObject(engine, 0);
             Registry registry = LocateRegistry.getRegistry();
             registry.rebind(name, stub);
             System.out.println("ComputeEngine bound");
@@ -35,6 +42,5 @@ public class ComputeEngineStarter extends RmiStarter{
             e.printStackTrace();
         }
     }
-    
-    
+
 }

@@ -92,9 +92,10 @@ public class DataController extends TransactionHandler {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        RMQMessageReceiver asr = new RMQMessageReceiver(new ApplianceStateMessageProtocol(new DataController()));
+        DataController dc = new DataController();
+        RMQMessageReceiver asr = new RMQMessageReceiver(new ApplianceStateMessageProtocol(dc));
         asr.start();
-        ComputeEngineStarter ces = new ComputeEngineStarter();
+        ComputeEngineStarter ces = new ComputeEngineStarter(dc);
         ces.start();
     }
 
