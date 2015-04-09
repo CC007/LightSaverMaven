@@ -59,28 +59,13 @@ public class CalculateTime implements DataTask<Integer>, Serializable {
         
         Integer accumTime = 0;
         Integer usage = 0;
-        if(applianceID == 0){
-           Set<Integer> idsChecked; 
-           idsChecked = new HashSet();
-           /*Iterator<Entry> it = entries.iterator();
-           while(it.hasNext()){
-               Entry e = it.next();
-               idsChecked.add(e.getClientId());
-           }
-           Iterator<Integer> it2 = idsChecked.iterator();
-           while(it2.hasNext()){
-               Integer e = it2.next();
-               double usagePerSec = 1.0; //TODO get this from somewhere using e.intValue().
-               long time = getTime(entries, e.intValue());
-               accumTime += (int) time;
-               usage += (int)(time*usagePerSec);
-           }*/
-           
-        } else {
-            double usagePerSec = 1.0; //TODO get this from somewhere using applianceID.
-            long time = getTime(entries, applianceID);
-            accumTime += (int) time;
-            usage += (int)(time*usagePerSec);
+        Iterator<Set<Entry>> it = entries.iterator();
+        while(it.hasNext()){
+             Set<Entry> e = it.next();
+             long time = getTime(e);
+             double usagePerSec = 1.0; //TODO get this from somewhere using applianceID.
+             accumTime += (int) time;
+             usage += (int)(time*usagePerSec);
         }
         
         switch (mode){
@@ -95,27 +80,26 @@ public class CalculateTime implements DataTask<Integer>, Serializable {
         return returnValue;
     }
     
-    private long getTime(Set<Set<Entry>> entries, int applianceID){
+    private long getTime(Set<Entry> entries){
         boolean prevOn = false;
         long accumTime = 0;
         long time = 0;
-        /*Iterator<Entry> it = entries.iterator();
+        Iterator<Entry> it = entries.iterator();
         while (it.hasNext()) {
             Entry e = it.next();
-            if(applianceID == e.getClientId()){
-                if(e.getPrice() == Light.LIGHT_ON){
-                    if(!prevOn){
-                        time = e.getDate();
-                        prevOn = true;
-                    }
-                } else {
-                    if (prevOn) {
-                        accumTime += e.getDate() - time;
-                        prevOn = false;
-                    }
+            if(e.getPrice() == Light.LIGHT_ON){
+                if(!prevOn){
+                    time = e.getDate();
+                    prevOn = true;
+                }
+            } else {
+                if (prevOn) {
+                    accumTime += e.getDate() - time;
+                    prevOn = false;
                 }
             }
-        }*/
+            
+        }
         return accumTime;
     }
     
