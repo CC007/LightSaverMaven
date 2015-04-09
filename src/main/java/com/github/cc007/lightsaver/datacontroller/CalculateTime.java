@@ -16,7 +16,7 @@ import javax.jdo.PersistenceManager;
  *
  * @author Aerylia
  */
-public class CalculateTime extends TransactionHandler implements DataTask<Integer>, Serializable {
+public class CalculateTime implements DataTask<Integer>, Serializable {
 
     private static final long serialVersionUID = 272L;
     DataController dc;
@@ -27,20 +27,12 @@ public class CalculateTime extends TransactionHandler implements DataTask<Intege
         return computeTime();
     }
 
-    public ReferencableMethod compTime = new ReferencableMethod() {
-
-        @Override
-        public void execute(Object... args) {
-            PersistenceManager pm = (PersistenceManager) args[0];
-            Object[] argsArray = (Object[]) (args[1]);
-            //TODO get entries and calc time
-        }
-    };
-
     private Integer computeTime() {
         //TODO Check if this works.
         Integer returnValue = 0;
-        this.handleTransaction(JDOHelper.getPersistenceManagerFactory("StateLog"), compTime, new Object[]{returnValue});
+        dc.getEntries(0L, 0L);//TODO Dummy
+        //or
+        dc.getEntries(0L, 0L, 0);//TODO Dummy
         return returnValue;
     }
 
