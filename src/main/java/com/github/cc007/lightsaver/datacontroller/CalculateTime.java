@@ -8,14 +8,11 @@ package com.github.cc007.lightsaver.datacontroller;
 import com.github.cc007.lightsaver.appliance.light.Light;
 import com.github.cc007.lightsaver.datacontroller.storage.Entry;
 import com.github.cc007.lightsaver.datacontroller.task.DataTask;
-import com.github.cc007.lightsaver.utils.ReferencableMethod;
-import com.github.cc007.lightsaver.utils.TransactionHandler;
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-import javax.jdo.JDOHelper;
-import javax.jdo.PersistenceManager;
 
 /**
  *
@@ -56,19 +53,58 @@ public class CalculateTime implements DataTask<Integer>, Serializable {
     }
 
     private Integer computeTime() {
-        //TODO Check if this works.
         Integer returnValue = 0;
 
         Set<Set<Entry>> entries = dc.getEntries(startDate, endDate, applianceID);
+        
+        Integer accumTime = 0;
+        Integer usage = 0;
+        if(applianceID == 0){
+           Set<Integer> idsChecked; 
+           idsChecked = new HashSet();
+           /*Iterator<Entry> it = entries.iterator();
+           while(it.hasNext()){
+               Entry e = it.next();
+               idsChecked.add(e.getClientId());
+           }
+           Iterator<Integer> it2 = idsChecked.iterator();
+           while(it2.hasNext()){
+               Integer e = it2.next();
+               double usagePerSec = 1.0; //TODO get this from somewhere using e.intValue().
+               long time = getTime(entries, e.intValue());
+               accumTime += (int) time;
+               usage += (int)(time*usagePerSec);
+           }*/
+           
+        } else {
+            double usagePerSec = 1.0; //TODO get this from somewhere using applianceID.
+            long time = getTime(entries, applianceID);
+            accumTime += (int) time;
+            usage += (int)(time*usagePerSec);
+        }
+        
+        switch (mode){
+            case CalculateTime.SECONDS:
+                return accumTime;
+            case CalculateTime.HOURS:
+                return accumTime/60/60;
+            case CalculateTime.ELECTRICITY_USAGE:
+                return usage;
+                
+        }
+        return returnValue;
+    }
+    
+    private long getTime(Set<Set<Entry>> entries, int applianceID){
         boolean prevOn = false;
         long accumTime = 0;
-        long time = 0;/*
-        Iterator<Entry> it = entries.iterator();
+        long time = 0;
+        /*Iterator<Entry> it = entries.iterator();
         while (it.hasNext()) {
             Entry e = it.next();
-            if (applianceID == 0 || applianceID == e.getClientId()) {
-                if (e.getPrice() == Light.LIGHT_ON) {
-                    if (!prevOn) {
+            if(applianceID == e.getClientId()){
+                if(e.getPrice() == Light.LIGHT_ON){
+                    if(!prevOn){
                         time = e.getDate();
                         prevOn = true;
                     }
@@ -80,9 +116,9 @@ public class CalculateTime implements DataTask<Integer>, Serializable {
                 }
             }
         }*/
-        return returnValue;
+        return accumTime;
     }
-
+    
     @Override
     public void setDataController(DataController dc) {
         this.dc = dc;
