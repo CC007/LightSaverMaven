@@ -48,8 +48,8 @@ public class DataController extends TransactionHandler {
         handleTransaction(pmf, addEntry, new Object[]{clientId, state, date});
     }
 
-    public Set<Entry> getEntries(long startDate, long endDate, int appliancId) {
-        Set<Entry> returnSet = new HashSet<>();
+    public Set<Set<Entry>> getEntries(long startDate, long endDate, int appliancId) {
+        Set<Set<Entry>> returnSet = new HashSet<>();
         handleTransaction(pmf, getEntries, new Object[]{startDate, endDate, appliancId, returnSet});
         return returnSet;
     }
@@ -85,20 +85,45 @@ public class DataController extends TransactionHandler {
             long startDate = (long) argsArray[0];
             long endDate = (long) argsArray[1];
             int applianceId = (int) argsArray[2];
-            Set<Entry> returnSet = (Set<Entry>) argsArray[3];
+            Set<Set<Entry>> returnSet = (Set<Set<Entry>>) argsArray[3];
             Query q;
             if (applianceId == 0) {
+                Set<Entry> innerSet = new HashSet<>();
+                Entry lastEntry = null;
                 q = pm.newQuery("SELECT FROM " + Entry.class.getName()
-                        + " WHERE date > " + startDate + " AND date < " + endDate + " ORDER BY date ASC");
+                        + " WHERE date > " + startDate + " AND date < " + endDate + " ORDER BY clientid, date ASC");
+                List<Entry> entries = (List<Entry>) q.execute();
+                Iterator<Entry> iter = entries.iterator();
+                if (iter.hasNext()) {
+                    Entry e = iter.next();
+                    innerSet.add(e);
+                    lastEntry = e;
+
+                }
+                while (iter.hasNext()) {
+                    Entry e = iter.next();
+                    if (e.getClientId() == lastEntry.getClientId()) {
+                        innerSet.add(e);
+                        lastEntry = e;
+                    } else {
+                        returnSet.add(innerSet);
+                        innerSet = new HashSet<>();
+                        innerSet.add(e);
+                        lastEntry = e;
+                    }
+                }
+                returnSet.add(innerSet);
             } else {
+                Set<Entry> innerSet = new HashSet<>();
                 q = pm.newQuery("SELECT FROM " + Entry.class.getName()
-                        + " WHERE CLIENTID = " + applianceId + " AND date > " + startDate + " AND date < " + endDate + " ORDER BY date ASC");
-            }
-            List<Entry> products = (List<Entry>) q.execute();
-            Iterator<Entry> iter = products.iterator();
-            while (iter.hasNext()) {
-                Entry p = iter.next();
-                returnSet.add(p);
+                        + " WHERE clientid = " + applianceId + " AND date > " + startDate + " AND date < " + endDate + " ORDER BY date ASC");
+                List<Entry> entries = (List<Entry>) q.execute();
+                Iterator<Entry> iter = entries.iterator();
+                while (iter.hasNext()) {
+                    Entry e = iter.next();
+                    innerSet.add(e);
+                }
+                returnSet.add(innerSet);
             }
         }
     };

@@ -27,29 +27,29 @@ public class CalculateTime implements DataTask<Integer>, Serializable {
     public static final int HOURS = 1;
     public static final int SECONDS = 2;
     public static final int ELECTRICITY_USAGE = 3;
-    
+
     private int mode;
     private long startDate;
     private long endDate;
     private int applianceID;
-    
+
     DataController dc;
-    
-    public CalculateTime(int mode){
+
+    public CalculateTime(int mode) {
         this(mode, 0, Calendar.getInstance().getTimeInMillis(), 0);
     }
-    
-    public CalculateTime(int mode, long startDate, long endDate){
+
+    public CalculateTime(int mode, long startDate, long endDate) {
         this(mode, startDate, endDate, 0);
     }
-    
-    public CalculateTime(int mode, long startDate, long endDate, int applianceID){
+
+    public CalculateTime(int mode, long startDate, long endDate, int applianceID) {
         this.mode = mode;
         this.startDate = startDate;
         this.endDate = endDate;
         this.applianceID = applianceID;
     }
-    
+
     @Override
     public Integer execute() {
         return computeTime();
@@ -59,27 +59,27 @@ public class CalculateTime implements DataTask<Integer>, Serializable {
         //TODO Check if this works.
         Integer returnValue = 0;
 
-        Set<Entry> entries = dc.getEntries(startDate, endDate, applianceID);
+        Set<Set<Entry>> entries = dc.getEntries(startDate, endDate, applianceID);
         boolean prevOn = false;
         long accumTime = 0;
-        long time = 0;
+        long time = 0;/*
         Iterator<Entry> it = entries.iterator();
-        while(it.hasNext()){
+        while (it.hasNext()) {
             Entry e = it.next();
-            if(applianceID == 0 || applianceID == e.getClientId()){
-                if(e.getPrice() == Light.LIGHT_ON){
-                    if(!prevOn){
+            if (applianceID == 0 || applianceID == e.getClientId()) {
+                if (e.getPrice() == Light.LIGHT_ON) {
+                    if (!prevOn) {
                         time = e.getDate();
                         prevOn = true;
                     }
                 } else {
-                    if(prevOn){
+                    if (prevOn) {
                         accumTime += e.getDate() - time;
                         prevOn = false;
                     }
                 }
             }
-        }
+        }*/
         return returnValue;
     }
 
