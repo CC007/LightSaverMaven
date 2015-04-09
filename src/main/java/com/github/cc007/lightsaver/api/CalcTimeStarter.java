@@ -13,7 +13,11 @@ import java.rmi.server.UnicastRemoteObject;
 import org.rug.netcomputing.rmi.base.Compute;
 import org.rug.netcomputing.rmi.base.RmiStarter;
 import com.github.cc007.lightsaver.datacontroller.CalculateTime;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -49,9 +53,12 @@ public class CalcTimeStarter extends RmiStarter {
             Compute compute = (Compute) registry.lookup(Compute.SERVICE_NAME);
             CalculateTime task = new CalculateTime(mode, startDate, endDate, applianceId);
             result = compute.executeTask(task);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (RemoteException ex) {
+            Logger.getLogger(CalcTimeStarter.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NotBoundException ex) {
+            Logger.getLogger(CalcTimeStarter.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        
     }
 
     public Integer getResult() {

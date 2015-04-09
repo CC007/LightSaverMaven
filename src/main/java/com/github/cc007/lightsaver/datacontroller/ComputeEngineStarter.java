@@ -5,9 +5,12 @@
  */
 package com.github.cc007.lightsaver.datacontroller;
 
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.rug.netcomputing.rmi.base.Compute;
 import org.rug.netcomputing.rmi.base.RmiStarter;
 
@@ -37,10 +40,9 @@ public class ComputeEngineStarter extends RmiStarter {
             Registry registry = LocateRegistry.getRegistry();
             registry.rebind(name, stub);
             System.out.println("ComputeEngine bound");
-        } catch (Exception e) {
-            System.err.println("ComputeEngine exception:");
-            e.printStackTrace();
-        }
+        } catch (RemoteException ex) {
+            Logger.getLogger(ComputeEngineStarter.class.getName()).log(Level.SEVERE, null, ex);
+        } 
     }
 
 }
