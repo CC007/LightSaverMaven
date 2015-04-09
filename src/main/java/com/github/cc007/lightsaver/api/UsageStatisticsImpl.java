@@ -24,7 +24,9 @@ public class UsageStatisticsImpl implements UsageStatistics {
 
     @Override
     public int getSeconds(Date startDate, Date endDate) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        CalcTimeStarter cts = new CalcTimeStarter(CalculateTime.SECONDS, startDate.getTime(), endDate.getTime());
+        cts.start();
+        return cts.getResult();
     }
 
     @Override
@@ -34,7 +36,9 @@ public class UsageStatisticsImpl implements UsageStatistics {
 
     @Override
     public double getElectricityUsage(Date startDate, Date endDate) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        CalcTimeStarter cts = new CalcTimeStarter(CalculateTime.ELECTRICITY_USAGE, startDate.getTime(), endDate.getTime());
+        cts.start();
+        return cts.getResult();
     }
 
     @Override
