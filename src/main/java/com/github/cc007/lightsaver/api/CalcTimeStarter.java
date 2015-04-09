@@ -13,6 +13,7 @@ import java.rmi.server.UnicastRemoteObject;
 import org.rug.netcomputing.rmi.base.Compute;
 import org.rug.netcomputing.rmi.base.RmiStarter;
 import com.github.cc007.lightsaver.datacontroller.CalculateTime;
+import java.util.Calendar;
 /**
  *
  * @author Aerylia
@@ -24,7 +25,7 @@ public class CalcTimeStarter extends RmiStarter {
         try {
             Registry registry = LocateRegistry.getRegistry();
             Compute compute = (Compute) registry.lookup(Compute.SERVICE_NAME);
-            CalculateTime task = new CalculateTime();
+            CalculateTime task = new CalculateTime(CalculateTime.HOURS);
             Integer i = compute.executeTask(task);
             System.out.println("computed time: " + i);
         } catch (Exception e) {
