@@ -17,21 +17,22 @@ import java.nio.ByteBuffer;
  * @author Rik
  */
 public class ApplianceStateMessageProtocol implements RMQMessageProtocol {
+
     DataController dc;
 
     public ApplianceStateMessageProtocol(DataController dc) {
         this.dc = dc;
     }
-    
+
     @Override
-    public void processInput(byte[] mBuffer, Message m){
+    public void processInput(byte[] mBuffer, Message m) {
         switch (ByteBuffer.wrap(mBuffer).getInt(0)) {
             case MessageTypes.APPLIANCE_STATE_CHANGE_MSG:
                 m = new ApplianceStateMessage(MessageTypes.APPLIANCE_STATE_CHANGE_MSG, ByteBuffer.wrap(mBuffer).getInt(4), ByteBuffer.wrap(mBuffer).getInt(8));
-                System.out.println("Something needs to be done with the logging of state " + ((ApplianceStateMessage)m).getState() + " for client: " + ((ApplianceStateMessage)m).getClientId() + " at time: " + System.currentTimeMillis());
-                dc.addEntry((
-                        (ApplianceStateMessage)m).getClientId(),
-                        ((ApplianceStateMessage)m).getState(),
+                System.out.println("Something needs to be done with the logging of state " + ((ApplianceStateMessage) m).getState() + " for client: " + ((ApplianceStateMessage) m).getClientId() + " at time: " + System.currentTimeMillis());
+                dc.addEntry(
+                        ((ApplianceStateMessage) m).getClientId(),
+                        ((ApplianceStateMessage) m).getState(),
                         System.currentTimeMillis()
                 );
                 break;

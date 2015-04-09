@@ -33,7 +33,7 @@ public class DataController extends TransactionHandler {
             this.states = (StateLog) pm.getObjectById(pm.newObjectIdInstance(StateLog.class, "StateLog"));
             System.out.println("Found existing StateLog");
         } catch (JDOObjectNotFoundException ex) {
-            this.states = new StateLog("StateLog");
+            handleTransaction(pmf, initStateLog, new Object[]{"StateLog"});
         }
     }
 
@@ -57,6 +57,17 @@ public class DataController extends TransactionHandler {
         return returnSet;
     }
     
+    public ReferencableMethod initStateLog = new ReferencableMethod() {
+
+        @Override
+        public void execute(Object... args) {
+            PersistenceManager pm = (PersistenceManager) args[0];
+            Object[] argsArray = (Object[]) (args[1]);
+            states = new StateLog((String) argsArray[0]);
+            pm.makePersistent(states);
+        }
+    };
+    
     public ReferencableMethod addEntry = new ReferencableMethod() {
 
         @Override
@@ -65,7 +76,6 @@ public class DataController extends TransactionHandler {
             Object[] argsArray = (Object[]) (args[1]);
             Entry e = new Entry((Integer) argsArray[0], (Integer) argsArray[1], (Long) argsArray[2]);
             states.getEntries().add(e);
-            pm.makePersistent(states);
         }
     };
 
