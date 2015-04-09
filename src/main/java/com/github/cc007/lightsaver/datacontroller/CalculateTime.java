@@ -5,22 +5,17 @@
  */
 package com.github.cc007.lightsaver.datacontroller;
 
-import com.github.cc007.lightsaver.datacontroller.storage.Entry;
 import com.github.cc007.lightsaver.utils.ReferencableMethod;
 import com.github.cc007.lightsaver.utils.TransactionHandler;
 import java.io.Serializable;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
-import org.rug.netcomputing.rmi.base.Compute;
-import org.rug.netcomputing.rmi.base.Task;
 
 /**
  *
  * @author Aerylia
  */
-public class CalculateTime extends TransactionHandler implements Task<Integer>, Serializable {
+public class CalculateTime extends TransactionHandler implements DataTask<Integer>, Serializable {
 
     private static final long serialVersionUID = 272L;
     DataController dc;

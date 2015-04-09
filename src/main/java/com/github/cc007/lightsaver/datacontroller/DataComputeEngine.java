@@ -5,10 +5,6 @@
  */
 package com.github.cc007.lightsaver.datacontroller;
 
-import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
 import org.rug.netcomputing.rmi.base.Compute;
 import org.rug.netcomputing.rmi.base.Task;
 
@@ -16,17 +12,19 @@ import org.rug.netcomputing.rmi.base.Task;
  *
  * @author Aerylia
  */
-public class ComputeEngine implements Compute {
+public class DataComputeEngine implements Compute {
 
     DataController dc;
 
-    public ComputeEngine(DataController dc) {
+    public DataComputeEngine(DataController dc) {
         this.dc = dc;
     }
 
     @Override
     public <T> T executeTask(Task<T> t) {
-        t.setDataController(dc);
+        if (t instanceof DataTask) {
+            ((DataTask<T>) t).setDataController(dc);
+        }
         return t.execute();
     }
 }

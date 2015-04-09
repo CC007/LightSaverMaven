@@ -31,7 +31,7 @@ public class ComputeEngineStarter extends RmiStarter {
         }
         try {
             String name = "Compute";
-            Compute engine = new ComputeEngine(dc);
+            Compute engine = new DataComputeEngine(dc);
             Compute stub
                     = (Compute) UnicastRemoteObject.exportObject(engine, 0);
             Registry registry = LocateRegistry.getRegistry();
