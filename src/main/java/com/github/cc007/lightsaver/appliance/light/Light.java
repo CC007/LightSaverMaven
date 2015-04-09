@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.github.cc007.lightsaver.light;
+package com.github.cc007.lightsaver.appliance.light;
 
-import com.github.cc007.lightsaver.datacollection.ElectricalAppliance;
+import com.github.cc007.lightsaver.appliance.ApplianceStateSender;
+import com.github.cc007.lightsaver.appliance.ElectricalAppliance;
 import com.github.cc007.lightsaver.message.tcp.TCPMessageServer;
 import com.github.cc007.lightsaver.message.udp.UDPMessageServer;
 import java.util.logging.Level;

@@ -5,6 +5,7 @@
  */
 package com.github.cc007.lightsaver.datacontroller;
 
+import com.github.cc007.lightsaver.datacontroller.task.DataTask;
 import org.rug.netcomputing.rmi.base.Compute;
 import org.rug.netcomputing.rmi.base.Task;
 

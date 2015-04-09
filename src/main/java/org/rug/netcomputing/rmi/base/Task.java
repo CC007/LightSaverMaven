@@ -16,5 +16,4 @@ public interface Task<T> {
 
     T execute();
 
-    void setDataController(DataController dc);
 }
