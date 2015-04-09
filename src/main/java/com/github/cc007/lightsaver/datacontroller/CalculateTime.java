@@ -5,6 +5,7 @@
  */
 package com.github.cc007.lightsaver.datacontroller;
 
+import com.github.cc007.lightsaver.datacontroller.task.DataTask;
 import com.github.cc007.lightsaver.utils.ReferencableMethod;
 import com.github.cc007.lightsaver.utils.TransactionHandler;
 import java.io.Serializable;
