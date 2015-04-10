@@ -5,7 +5,7 @@
  */
 package com.github.cc007.lightsaver.api;
 
-import com.github.cc007.lightsaver.datacontroller.CalculateTime;
+import com.github.cc007.lightsaver.datacontroller.task.CalculateTime;
 import java.util.Date;
 
 public class UsageStatistics {

@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE orm SYSTEM "file:/javax/jdo/orm.dtd">
+<orm>
+    <package name="com.github.cc007.lightsaver.datacontroller.storage">
+        <class name="StateLog" table="INVENTORIES">
+            <field name="name">
+                <column name="NAME" length="100"/>
+            </field>
+            <field name="logs" table="STATELOG_ENTRIES">
+                <join/>
+            </field>
+        </class>
+
+        <class name="Entry" table="ENTRIES">
+            <inheritance strategy="new-table"/>
+            <field name="id">
+                <column name="ENTRY_ID"/>
+            </field>
+            <field name="clientId">
+                <column name="CLIENT_ID"/>
+            </field>
+            <field name="state">
+                <column name="STATE"/>
+            </field>
+            <field name="date">
+                <column name="DATE"/>
+            </field>
+        </class>
+    </package>
+</orm>

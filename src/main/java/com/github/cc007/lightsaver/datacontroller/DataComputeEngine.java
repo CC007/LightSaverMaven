@@ -18,7 +18,9 @@ public class DataComputeEngine implements Compute {
     DataController dc;
 
     public DataComputeEngine(DataController dc) {
+        System.out.println("set DataController");
         this.dc = dc;
+        System.out.println("Done setting DataController");
     }
 
     @Override

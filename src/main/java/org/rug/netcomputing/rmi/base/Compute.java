@@ -13,7 +13,7 @@ import java.rmi.RemoteException;
  */
 public interface Compute extends Remote {
     
-    public static final String SERVICE_NAME = "ComputeEngine";
+    public static final String SERVICE_NAME = "Compute";
     
     <T> T executeTask(Task<T> t) throws RemoteException;
 }

@@ -3,15 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.github.cc007.lightsaver.datacontroller;
+package com.github.cc007.lightsaver.datacontroller.task;
 
 import com.github.cc007.lightsaver.appliance.light.Light;
+import com.github.cc007.lightsaver.datacontroller.DataController;
 import com.github.cc007.lightsaver.datacontroller.storage.Entry;
 import com.github.cc007.lightsaver.datacontroller.task.DataTask;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -55,13 +57,13 @@ public class CalculateTime implements DataTask<Integer>, Serializable {
     private Integer computeTime() {
         Integer returnValue = 0;
 
-        Set<Set<Entry>> entries = dc.getEntries(startDate, endDate, applianceID);
+        Set<List<Entry>> entries = dc.getEntries(startDate, endDate, applianceID);
         
         Integer accumTime = 0;
         Integer usage = 0;
-        Iterator<Set<Entry>> it = entries.iterator();
+        Iterator<List<Entry>> it = entries.iterator();
         while(it.hasNext()){
-             Set<Entry> e = it.next();
+             List<Entry> e = it.next();
              long time = getTime(e);
              double usagePerSec = 1.0; //TODO get this from somewhere using applianceID.
              accumTime += (int) time;
@@ -70,9 +72,9 @@ public class CalculateTime implements DataTask<Integer>, Serializable {
         
         switch (mode){
             case CalculateTime.SECONDS:
-                return accumTime;
+                return accumTime/1000;
             case CalculateTime.HOURS:
-                return accumTime/60/60;
+                return accumTime/60/60/1000;
             case CalculateTime.ELECTRICITY_USAGE:
                 return usage;
                 
@@ -80,7 +82,7 @@ public class CalculateTime implements DataTask<Integer>, Serializable {
         return returnValue;
     }
     
-    private long getTime(Set<Entry> entries){
+    private long getTime(List<Entry> entries){
         boolean prevOn = false;
         long accumTime = 0;
         long time = 0;

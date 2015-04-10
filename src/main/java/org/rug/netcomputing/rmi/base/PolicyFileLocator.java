@@ -22,6 +22,7 @@ public class PolicyFileLocator {
                 writer.write(read);
             }
             writer.close();
+            System.out.println("Policy file written");
             tempFile.deleteOnExit();
             return tempFile.getAbsolutePath();
         }
