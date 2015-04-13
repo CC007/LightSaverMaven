@@ -26,7 +26,6 @@ public class Light extends ElectricalAppliance {
 
     private UDPMessageServer udpServer;
     private TCPMessageServer tcpServer;
-    private ApplianceStateSender sender;
 
     private int lightlevel;
     private int counter;
@@ -42,8 +41,8 @@ public class Light extends ElectricalAppliance {
     public void startThreads(String serverAddress, int clientId) {
         udpServer = new UDPMessageServer(new DetectorUDPMessageProtocol(this));
         tcpServer = new TCPMessageServer(new DetectorTCPMessageProtocol(this));
-        sender = new ApplianceStateSender(serverAddress, clientId);
-        sender.start();
+        ass = new ApplianceStateSender(serverAddress, clientId);
+        ass.start();
         udpServer.start();
         tcpServer.start();
     }
@@ -113,7 +112,7 @@ public class Light extends ElectricalAppliance {
 
     @Override
     public void sendState() {
-        sender.setState(state);
+        ass.setState(state);
     }
 
 }

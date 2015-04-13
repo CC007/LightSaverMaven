@@ -8,6 +8,7 @@ package com.github.cc007.lightsaver.appliance;
 public abstract class ElectricalAppliance {
 
     protected int state;
+    protected ApplianceStateSender ass;
 
     public int getState() {
         return state;
