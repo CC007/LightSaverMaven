@@ -1,7 +1,6 @@
 package com.github.cc007.lightsaver.message.rabbitmq;
 
 import com.github.cc007.lightsaver.message.Message;
-import com.github.cc007.lightsaver.message.ServerStarter;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
@@ -11,7 +10,6 @@ import com.rabbitmq.client.ShutdownSignalException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import com.github.cc007.lightsaver.message.rabbitmq.RMQMessageProtocol;
 
 public class RMQMessageReceiver extends Thread {
 
