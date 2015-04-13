@@ -5,17 +5,14 @@
  */
 package com.github.cc007.lightsaver.api;
 
-import org.rug.netcomputing.rmi.base.RmiStarter;
 
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
 import org.rug.netcomputing.rmi.base.Compute;
 import org.rug.netcomputing.rmi.base.RmiStarter;
 import com.github.cc007.lightsaver.datacontroller.task.CalculateTime;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

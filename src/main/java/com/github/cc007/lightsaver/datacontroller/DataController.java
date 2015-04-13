@@ -41,22 +41,25 @@ public class DataController extends TransactionHandler {
         }
     }
 
-    public void setPmf(PersistenceManagerFactory pmf) {
-        this.pmf = pmf;
-    }
-
     public void addEntry(int clientId, int state, long date) {
         handleTransaction(pmf, addEntry, new Object[]{clientId, state, date});
     }
 
-    public Set<List<Entry>> getEntries(long startDate, long endDate, int appliancId) {
+    /**
+     * 
+     * @param startDate
+     * @param endDate
+     * @param applianceId
+     * @return a set of lists of entries with one list per applianceId, the list ordered by date
+     */
+    public Set<List<Entry>> getEntries(long startDate, long endDate, int applianceId) {
         Set<List<Entry>> returnSet = new HashSet<>();
         PersistenceManager pm = pmf.getPersistenceManager();
-        getEntries.execute(pm, new Object[]{startDate, endDate, appliancId, returnSet});
+        getEntries.execute(pm, new Object[]{startDate, endDate, applianceId, returnSet});
         return returnSet;
     }
 
-    public ReferencableMethod initStateLog = new ReferencableMethod() {
+    private ReferencableMethod initStateLog = new ReferencableMethod() {
 
         @Override
         public void execute(Object... args) {
@@ -67,7 +70,7 @@ public class DataController extends TransactionHandler {
         }
     };
 
-    public ReferencableMethod addEntry = new ReferencableMethod() {
+    private ReferencableMethod addEntry = new ReferencableMethod() {
 
         @Override
         public void execute(Object... args) {
@@ -78,7 +81,7 @@ public class DataController extends TransactionHandler {
         }
     };
 
-    public ReferencableMethod getEntries = new ReferencableMethod() {
+    private ReferencableMethod getEntries = new ReferencableMethod() {
 
         @Override
         public void execute(Object... args) {

@@ -20,7 +20,7 @@ import org.rug.netcomputing.rmi.base.RmiStarter;
  */
 public class ComputeEngineStarter extends RmiStarter {
 
-    DataController dc;
+    private final DataController dc;
 
     public ComputeEngineStarter(DataController dc) {
         this.dc = dc;

@@ -15,7 +15,7 @@ import org.rug.netcomputing.rmi.base.Task;
  */
 public class DataComputeEngine implements Compute {
 
-    DataController dc;
+    private final DataController dc;
 
     public DataComputeEngine(DataController dc) {
         System.out.println("set DataController");

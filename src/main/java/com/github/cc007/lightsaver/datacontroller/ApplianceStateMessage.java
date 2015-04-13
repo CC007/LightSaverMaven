@@ -13,8 +13,8 @@ import com.github.cc007.lightsaver.message.Message;
  */
 public class ApplianceStateMessage extends Message {
 
-    private int clientId;
-    private int state;
+    private final int clientId;
+    private final int state;
 
     public ApplianceStateMessage(int msgType, int clientId, int state) {
         super(msgType);
