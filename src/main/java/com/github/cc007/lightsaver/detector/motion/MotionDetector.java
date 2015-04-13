@@ -5,8 +5,6 @@
  */
 package com.github.cc007.lightsaver.detector.motion;
 
-import java.util.Random;
-
 /**
  *
  * @author Rik
