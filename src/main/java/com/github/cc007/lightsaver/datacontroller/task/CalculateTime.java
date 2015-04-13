@@ -63,7 +63,7 @@ public class CalculateTime implements DataTask<Integer>, Serializable {
         while(it.hasNext()){
              List<Entry> e = it.next();
              long time = getTime(e);
-             double usagePerSec = 1.0; //TODO get this from somewhere using applianceID.
+             double usagePerSec = 1.0; //TODO get this from somewhere using applianceId.
              accumTime += (int) time;
              usage += (int)(time*usagePerSec);
         }
