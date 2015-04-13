@@ -5,8 +5,6 @@
  */
 package com.github.cc007.lightsaver.detector.door;
 
-import java.util.Random;
-
 /**
  *
  * @author Rik
@@ -31,7 +29,6 @@ public class DoorDetector {
             }
             serverAddress = args[1];
         }
-        Random r = new Random(System.currentTimeMillis());
         DoorDetectorClient ddc = new DoorDetectorClient(clientId, serverAddress);
         ddc.start();
     }
