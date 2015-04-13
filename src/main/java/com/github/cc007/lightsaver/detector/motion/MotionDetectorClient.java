@@ -18,9 +18,10 @@ public class MotionDetectorClient extends UDPMessageClient {
     }
 
     private static boolean detectMotion() {
+        //placeholder : override this method
         Random r = new Random(System.currentTimeMillis());
         int value = r.nextInt(100);
-        return value > 90; //TODO really detect passage
+        return value > 90; 
     }
 
     @Override

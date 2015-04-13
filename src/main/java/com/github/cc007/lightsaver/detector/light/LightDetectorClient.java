@@ -18,6 +18,7 @@ public class LightDetectorClient extends UDPMessageClient {
     }
 
     private static int detectLight() {
+        //placeholder: override this method
         Random r = new Random(System.currentTimeMillis());
         return r.nextInt(100); //TODO really detect light
     }

@@ -29,7 +29,7 @@ public class DoorDetectorClient extends TCPMessageClient {
     }
 
     private boolean getDoorState() {
-        //TODO actually get door state
+        //placeholder: override this method
         Random r = new Random(System.currentTimeMillis());
         return r.nextBoolean();
     }
